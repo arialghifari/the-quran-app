@@ -7,6 +7,21 @@
   font-family: "Inter", "system-ui", "sans-serif";
 }
 
-body {
-  background-color: #eef2f5;
+.chapter-card__number {
+  background-image: linear-gradient(347.35deg, #0183ac 0%, #00aee6 100%);
+  background-size: 0;
+  background-repeat: no-repeat;
+  transition: 0.4s ease;
+}
+
+.chapter-card:hover > .chapter-card__number {
+  background-size: 100%;
+  color: #fafafa;
+  opacity: 1;
+}
+
+@layer base {
+  body {
+    @apply bg-default;
+  }
 }

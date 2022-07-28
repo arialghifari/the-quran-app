@@ -7,7 +7,7 @@ function Footer() {
   };
 
   return (
-    <div className="py-4 text-zinc-500">
+    <div className="py-6 text-zinc-500">
       @ {getYear()} The Quran by{" "}
       <a
         href="https://github.com/arialghifari"

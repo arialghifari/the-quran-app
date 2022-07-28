@@ -10,8 +10,7 @@ function Header() {
             to="/"
             className="flex items-center gap-2 font-semibold text-zinc-700 text-lg"
           >
-            <img src="/logo.svg" alt="The Quran logo" className="w-9" />
-            The Quran
+            <img src="/logo.svg" alt="The Quran logo" className="w-10" />
           </Link>
         </div>
 
@@ -19,20 +18,18 @@ function Header() {
           <input
             type="text"
             placeholder="Search"
-            className="bg-transparent border-2 border-zinc-400 text-zinc-700 p-1.5 pl-8 w-96 max-w-sm rounded-sm"
+            className="bg-transparent border-2 border-zinc-400 text-zinc-700 p-1.5 pl-8 w-96 max-w-sm rounded-md"
           />
           <div className="absolute top-0 left-0 h-full flex items-center justify-center px-2">
             <img src="/ic_search.svg" alt="search" className="w-5" />
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-8">
           <button>
             <img src="/ic_setting.svg" alt="setting" />
           </button>
-          <button className="underline underline-offset-4 text-zinc-700">
-            LOGIN
-          </button>
+          <button className="text-zinc-700 hover:text-zinc-800">LOGIN</button>
         </div>
       </div>
     </div>
