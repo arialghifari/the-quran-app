@@ -35,6 +35,7 @@ function VerseList({ data, dataTranslation }) {
       {chapterDetail.map((item, index) => (
         <VerseCard key={index} item={item} />
       ))}
+      <div className="mb-32" />
     </>
   );
 }
