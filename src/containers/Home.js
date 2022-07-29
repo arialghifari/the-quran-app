@@ -3,6 +3,7 @@ import ChapterList from "../components/ChapterList";
 import { useQuranQuery } from "../services/quranApi";
 
 function Home() {
+  window.scrollTo(0, 0);
   const { data, error, isLoading } = useQuranQuery();
   return (
     <div className="container">

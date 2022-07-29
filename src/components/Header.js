@@ -6,7 +6,7 @@ function Header() {
     <div className="bg-default z-50 fixed top-0 left-0 right-0 flex justify-center py-3 shadow-sm">
       <div className="flex justify-between items-center container px-3">
         <div>
-          <Link to="/" className="flex items-center gap-2 rounded-full hover:shadow-md">
+          <Link to="/" className="logo flex items-center gap-2 rounded-full">
             <img src="/logo.svg" alt="The Quran logo" className="w-9" />
           </Link>
         </div>
@@ -22,7 +22,7 @@ function Header() {
           </div>
         </div>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           <button className="p-1 hover:bg-zinc-300 rounded-full">
             <img src="/ic_setting.svg" alt="setting" />
           </button>
