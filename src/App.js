@@ -1,8 +1,8 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./containers/Home";
+import ChapterInfo from "./containers/ChapterInfo.js";
 import ChapterDetail from "./containers/ChapterDetail.js";
-import VerseDetail from "./containers/VerseDetail.js";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
 
@@ -10,14 +10,13 @@ function App() {
   return (
     <div className="App container mx-auto px-3">
       <Header />
-      <div className="mt-28" />
+      <div className="mt-24" />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/:chapter" element={<ChapterDetail />} />
-        <Route path="/:chapter/:verse" element={<VerseDetail />} />
-        <Route path="*" element={<>404 not found</>} />
+        <Route path="/:chapter" element={<ChapterInfo />} />
+        <Route path="/:chapter/:verse" element={<ChapterDetail />} />
+        <Route path="*" element={<>Not found</>} />
       </Routes>
-      <div className="mb-8" />
       <Footer />
     </div>
   );

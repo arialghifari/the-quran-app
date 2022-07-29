@@ -10,7 +10,7 @@ export const quranApi = createApi({
     quran: build.query({
       query: () => "/chapters",
     }),
-    chapterDetail: build.query({
+    chapterVerses: build.query({
       query: (id) => `/quran/verses/uthmani?chapter_number=${id}`,
     }),
     chapterTranslation: build.query({
@@ -19,12 +19,16 @@ export const quranApi = createApi({
     chapterRecitation: build.query({
       query: ({ id, page }) => `/recitations/7/by_chapter/${id}?page=${page}`,
     }),
+    chapterDetail: build.query({
+      query: (id) => `/chapters/${id}`,
+    }),
   }),
 });
 
 export const {
   useQuranQuery,
-  useChapterDetailQuery,
+  useChapterVersesQuery,
   useChapterTranslationQuery,
   useChapterRecitationQuery,
+  useChapterDetailQuery,
 } = quranApi;

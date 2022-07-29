@@ -7,8 +7,8 @@ function Footer() {
   };
 
   return (
-    <div className="py-6 text-zinc-500">
-      @ {getYear()} The Quran by{" "}
+    <div className="py-6 text-zinc-500 mt-8">
+      @ {getYear()} The Quran App by{" "}
       <a
         href="https://github.com/arialghifari"
         target="_blank"

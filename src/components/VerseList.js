@@ -32,10 +32,11 @@ function VerseList({ data, dataTranslation }) {
 
   return (
     <>
-      {chapterDetail.map((item, index) => (
-        <VerseCard key={index} item={item} />
-      ))}
-      <div className="mb-32" />
+      <div className="flex flex-col gap-4">
+        {chapterDetail.map((item, index) => (
+          <VerseCard key={index} item={item} />
+        ))}
+      </div>
     </>
   );
 }
