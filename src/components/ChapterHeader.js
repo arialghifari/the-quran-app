@@ -1,6 +1,9 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 
 function ChapterHeader({ item, verseLength }) {
+  const { chapter } = useParams();
+
   return (
     <>
       <div className="flex justify-between items-start mb-6">
@@ -21,9 +24,13 @@ function ChapterHeader({ item, verseLength }) {
             <img src="/ic_play_white.svg" alt="play" />
             Play Audio
           </button>
-          <button className="w-fit hover:underline hover:text-underline underline-offset-2">
-            More Surah Info
-          </button>
+          <Link
+            to={`/${chapter}`}
+            className="w-fit text-zinc-800 hover:bg-zinc-300 py-1 px-2 rounded-md flex justify-center items-center gap-1"
+          >
+            <img src="/ic_info.svg" alt="info" />
+            Surah Info
+          </Link>
         </div>
       </div>
 

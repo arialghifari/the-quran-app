@@ -9,6 +9,11 @@ function Verse({ item }) {
   useEffect(() => {
     const activeId = document.getElementById(`${chapter}:${verse}`);
 
+    if (parseInt(verse) === 1)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     if (parseInt(verse) !== 1)
       window.scrollTo({
         top: parseInt(activeId.offsetTop) - 150,

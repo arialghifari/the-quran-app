@@ -63,13 +63,13 @@ function AudioPlayer() {
   };
 
   return (
-    <div className="flex z-10 px-3 justify-center bg-gray-200 fixed bottom-0 left-0 right-0">
+    <div className="flex z-10 justify-center fixed bottom-3 left-0 right-0">
       {errorRecitation ? (
         <p>There was an error</p>
       ) : isLoadingRecitation || loading ? (
         <p>Loading...</p>
       ) : dataRecitation ? (
-        <div className="container p-4">
+        <div className="container w-fit py-3 px-6 relative bg-zinc-50 shadow-md border rounded-full">
           <audio
             onEnded={handleOnEnded}
             autoPlay={isPlaying}
@@ -78,9 +78,9 @@ function AudioPlayer() {
             preload="metadata"
           ></audio>
 
-          <div className="flex gap-6 justify-center">
+          <div className="flex gap-14 justify-center z-10">
             <button onClick={handlePrevAyah}>
-              <img src="/ic_left.svg" alt="prev ayah" />
+              <img src="/ic_prev.svg" alt="prev ayah" />
             </button>
 
             <button onClick={togglePlayPause}>
@@ -92,7 +92,7 @@ function AudioPlayer() {
             </button>
 
             <button onClick={handleNextAyah}>
-              <img src="/ic_right.svg" alt="next ayah" />
+              <img src="/ic_next.svg" alt="next ayah" />
             </button>
           </div>
         </div>
