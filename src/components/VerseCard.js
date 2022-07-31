@@ -13,8 +13,6 @@ function Verse({ item }) {
   const activeVerse = `${chapter}:${verse}`;
 
   useEffect(() => {
-    if (!isPlaying) return;
-
     const activeId = document.getElementById(activeVerse);
 
     if (parseInt(verse) === 1)

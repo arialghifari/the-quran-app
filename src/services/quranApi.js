@@ -25,6 +25,10 @@ export const quranApi = createApi({
     chapterInfo: build.query({
       query: (id) => `/chapters/${id}/info`,
     }),
+    search: build.query({
+      query: ({ query, page }) =>
+        `/search?q=${query}&size=20&page=${page}&lang=en`,
+    }),
   }),
 });
 
@@ -35,4 +39,5 @@ export const {
   useChapterRecitationQuery,
   useChapterDetailQuery,
   useChapterInfoQuery,
+  useSearchQuery,
 } = quranApi;

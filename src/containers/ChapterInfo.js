@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import parse from "html-react-parser";
 import {
   useChapterDetailQuery,
   useChapterInfoQuery,
 } from "../services/quranApi";
 import { Link, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { pause } from "../reducers/audioSlice";
 
 function ChapterInfo() {
+  const dispatch = useDispatch();
   const { chapter } = useParams();
+
+  useEffect(() => {
+    dispatch(pause());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     data: dataChapterDetail,

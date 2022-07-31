@@ -38,9 +38,7 @@ function AudioPlayer() {
       if (dataRecitation.pagination.next_page) {
         setRecitationPage(recitationPage + 1);
       } else {
-        // dispatch(setAudioRef(document.querySelector("audio")));
         setLoading(false);
-        // SETT THIS TO AUDIO AND CAN PLAY ANYWHERE
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

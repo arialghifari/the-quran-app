@@ -10,7 +10,7 @@ const audioSlice = createSlice({
       return { ...state, isPlaying: true };
     },
     pause: (state) => {
-      return { ...state, isPlaying: false, verseKey: null };
+      return { ...state, isPlaying: false };
     },
   },
 });

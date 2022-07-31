@@ -65,4 +65,8 @@
   .format-text strong {
     @apply text-sm font-semibold text-zinc-700;
   }
+
+  .search-card em {
+    @apply bg-yellow-200 not-italic bg-primary/20 px-1;
+  }
 }

@@ -5,6 +5,7 @@ import ChapterInfo from "./containers/ChapterInfo.js";
 import ChapterDetail from "./containers/ChapterDetail.js";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
+import Search from "./containers/Search";
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/:chapter" element={<ChapterInfo />} />
         <Route path="/:chapter/:verse" element={<ChapterDetail />} />
-        <Route path="*" element={<>Not found</>} />
+        <Route path="/search/:query/:page" element={<Search />} />
+        <Route path="/search" element={<>404 Not Found</>} />
+        <Route path="*" element={<>404 Not Found</>} />
       </Routes>
       <Footer />
     </div>
