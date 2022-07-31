@@ -46,9 +46,9 @@ function VerseList() {
   return (
     <>
       {errorChapterVerses || errorTranslation ? (
-        <p>Error</p>
+        <p className="text-center">There was an error</p>
       ) : isLoadingChapterVerses || isLoadingTranslation ? (
-        <p>Loading</p>
+        <p className="text-center">Loading...</p>
       ) : dataChapterVerses && dataTranslation ? (
         <div className="flex flex-col gap-4">
           {chapterDetail.map((item, index) => (

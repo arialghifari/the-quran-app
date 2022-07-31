@@ -27,7 +27,7 @@ export const quranApi = createApi({
     }),
     search: build.query({
       query: ({ query, page }) =>
-        `/search?q=${query}&size=20&page=${page}&lang=en`,
+        `/search?q=${query}&size=20&page=${page}&language=en`,
     }),
   }),
 });

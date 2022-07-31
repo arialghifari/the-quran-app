@@ -31,9 +31,9 @@ function ChapterInfo() {
   return (
     <div>
       {errorChapterDetail || errorChapterInfo ? (
-        <p>There was an error</p>
+        <p className="text-center">There was an error</p>
       ) : isLoadingChapterDetail || isLoadingChapterInfo ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : dataChapterDetail || dataChapterInfo ? (
         <div className="flex gap-6">
           <div className="basis-1/4">

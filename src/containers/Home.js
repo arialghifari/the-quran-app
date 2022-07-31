@@ -11,15 +11,15 @@ function Home() {
 
   useEffect(() => {
     dispatch(pause());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="container">
       {error ? (
-        <p>Error</p>
+        <p className="text-center">There was an error</p>
       ) : isLoading ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : data ? (
         <ChapterList item={data} />
       ) : null}

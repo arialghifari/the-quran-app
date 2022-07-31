@@ -13,13 +13,12 @@ function SearchCard({ item }) {
     isLoading: isLoadingChapterDetail,
   } = useChapterDetailQuery(chapter);
 
-
   return (
     <>
       {errorChapterDetail ? (
-        <p>Error</p>
+        <p className="text-center">There was an error</p>
       ) : isLoadingChapterDetail ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : dataChapterDetail ? (
         <div className="search-card">
           <div
@@ -33,7 +32,9 @@ function SearchCard({ item }) {
             <p className="mt-2">{parse(item.translations[0].text)}</p>
             <hr className="border" />
             <div className="flex justify-between items-center">
-              <p className="text-primary font-bold">{dataChapterDetail.chapter.name_simple} ({item.verse_key})</p>
+              <p className="text-primary font-bold">
+                {dataChapterDetail.chapter.name_simple} ({item.verse_key})
+              </p>
 
               <div className="flex gap-3">
                 <Link

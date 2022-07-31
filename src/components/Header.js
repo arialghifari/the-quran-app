@@ -43,6 +43,7 @@ function Header() {
           <button className="p-1 hover:bg-zinc-300 rounded-full">
             <img src="/ic_setting.svg" alt="setting" />
           </button>
+          
           <button className="text-zinc-800 py-1 px-2 rounded-md hover:bg-zinc-300">
             LOGIN
           </button>

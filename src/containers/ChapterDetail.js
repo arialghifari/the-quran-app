@@ -26,9 +26,9 @@ function ChapterDetail() {
   return (
     <div>
       {error || errorChapterDetail || errorChapterVerses ? (
-        <p>There was an error</p>
+        <p className="text-center">There was an error</p>
       ) : isLoading || isLoadingChapterDetail || isLoadingChapterVerses ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : data && dataChapterDetail && dataChapterVerses ? (
         <div>
           <AudioPlayer />
