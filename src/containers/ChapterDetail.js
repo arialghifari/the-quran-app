@@ -11,7 +11,6 @@ import ChapterHeader from "../components/ChapterHeader";
 
 function ChapterDetail() {
   const { chapter } = useParams();
-
   const { data, error, isLoading } = useQuranQuery();
   const {
     data: dataChapterVerses,

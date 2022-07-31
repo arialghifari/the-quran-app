@@ -1,13 +1,21 @@
 import React, { useEffect } from "react";
 import parse from "html-react-parser";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { selectIsPlaying, pause, play } from "../reducers/audioSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 function Verse({ item }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { chapter, verse } = useParams();
+  const isPlaying = useSelector(selectIsPlaying);
   const isActive = item.id === parseInt(verse);
+  const activeVerse = `${chapter}:${verse}`;
 
   useEffect(() => {
-    const activeId = document.getElementById(`${chapter}:${verse}`);
+    if (!isPlaying) return;
+
+    const activeId = document.getElementById(activeVerse);
 
     if (parseInt(verse) === 1)
       window.scrollTo({
@@ -19,7 +27,19 @@ function Verse({ item }) {
         top: parseInt(activeId.offsetTop) - 150,
         behavior: "smooth",
       });
-  }, [chapter, verse]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeVerse, isPlaying]);
+
+  const togglePlay = (verseKey) => {
+    const verse = verseKey.split(":")[1];
+
+    navigate(`/${chapter}/${verse}`);
+    dispatch(play());
+  };
+
+  const togglePause = () => {
+    dispatch(pause());
+  };
 
   return (
     <div
@@ -37,9 +57,16 @@ function Verse({ item }) {
         <p className="text-primary font-bold">{item.verse_key}</p>
 
         <div className="flex gap-3">
-          <button>
-            <img src="/ic_play_small.svg" alt="play" />
-          </button>
+          {isPlaying && activeVerse === item.verse_key ? (
+            <button onClick={togglePause}>
+              <img src="/ic_pause_small.svg" alt="pause" />
+            </button>
+          ) : (
+            <button onClick={() => togglePlay(item.verse_key)}>
+              <img src="/ic_play_small.svg" alt="play" />
+            </button>
+          )}
+
           <button>
             <img src="/ic_bookmark_outline.svg" alt="bookmark" />
           </button>

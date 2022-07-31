@@ -1,16 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_AUDIO_VERSE } from "../apis/quran";
+import { pause, play, selectIsPlaying } from "../reducers/audioSlice";
 import { useChapterRecitationQuery } from "../services/quranApi";
 
 function AudioPlayer() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { chapter, verse } = useParams();
-  const varseInt = parseInt(verse);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const verseInt = parseInt(verse);
   const [allRecitation, setAllRecitation] = useState([]);
   const [recitationPage, setRecitationPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const isPlaying = useSelector(selectIsPlaying);
 
   const audioPlayer = useRef();
 
@@ -35,32 +38,45 @@ function AudioPlayer() {
       if (dataRecitation.pagination.next_page) {
         setRecitationPage(recitationPage + 1);
       } else {
+        // dispatch(setAudioRef(document.querySelector("audio")));
         setLoading(false);
+        // SETT THIS TO AUDIO AND CAN PLAY ANYWHERE
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataRecitation]);
 
   const handlePrevAyah = () => {
-    if (varseInt - 1 !== 0) navigate(`/${chapter}/${varseInt - 1}`);
+    if (verseInt - 1 !== 0) navigate(`/${chapter}/${verseInt - 1}`);
   };
 
   const handleNextAyah = () => {
-    if (varseInt + 1 <= allRecitation.length)
-      navigate(`/${chapter}/${varseInt + 1}`);
+    if (verseInt + 1 <= allRecitation.length)
+      navigate(`/${chapter}/${verseInt + 1}`);
   };
 
   const handleOnEnded = () => {
-    if (varseInt + 1 <= allRecitation.length)
-      navigate(`/${chapter}/${varseInt + 1}`);
+    if (verseInt + 1 <= allRecitation.length) {
+      navigate(`/${chapter}/${verseInt + 1}`);
+      dispatch(play());
+    }
 
-    if (varseInt >= allRecitation.length) setIsPlaying(false);
+    if (verseInt >= allRecitation.length) togglePause();
   };
 
-  const togglePlayPause = () => {
-    !isPlaying ? audioPlayer.current.play() : audioPlayer.current.pause();
-    setIsPlaying(!isPlaying);
+  const togglePlay = () => {
+    dispatch(play());
   };
+
+  const togglePause = () => {
+    dispatch(pause());
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      isPlaying ? audioPlayer.current.play() : audioPlayer.current.pause();
+    }
+  }, [isPlaying, loading]);
 
   return (
     <div className="flex z-10 justify-center fixed bottom-3 left-0 right-0">
@@ -83,7 +99,7 @@ function AudioPlayer() {
               <img src="/ic_prev.svg" alt="prev ayah" />
             </button>
 
-            <button onClick={togglePlayPause}>
+            <button onClick={isPlaying ? togglePause : togglePlay}>
               {isPlaying ? (
                 <img src="/ic_pause.svg" alt="pause" />
               ) : (

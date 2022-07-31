@@ -1,8 +1,20 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { pause, play, selectIsPlaying } from "../reducers/audioSlice";
 
 function ChapterHeader({ item, verseLength }) {
+  const dispatch = useDispatch();
   const { chapter } = useParams();
+  const isPlaying = useSelector(selectIsPlaying);
+
+  const togglePlay = () => {
+    dispatch(play());
+  };
+
+  const togglePause = () => {
+    dispatch(pause());
+  };
 
   return (
     <>
@@ -20,9 +32,15 @@ function ChapterHeader({ item, verseLength }) {
           </div>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <button className="w-fit bg-primary hover:bg-primary_hover text-zinc-50 py-1 px-2 rounded-md flex items-center gap-1">
-            <img src="/ic_play_white.svg" alt="play" />
-            Play Audio
+          <button
+            onClick={isPlaying ? togglePause : togglePlay}
+            className="w-fit bg-primary hover:bg-primary_hover text-zinc-50 py-1 px-2 rounded-md flex items-center gap-1"
+          >
+            <img
+              src={`/ic_${isPlaying ? "pause" : "play"}_white.svg`}
+              alt="play"
+            />
+            {isPlaying ? "Pause" : "Play"} Audio
           </button>
           <Link
             to={`/${chapter}`}
