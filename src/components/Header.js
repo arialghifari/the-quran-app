@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
+import Setting from "./Setting";
 
 function Header() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [toggleLogout, setToggleLogout] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
 
   const [user] = useAuthState(auth);
 
@@ -61,9 +63,16 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-6">
-          <button className="p-1 hover:bg-zinc-300 rounded-full">
-            <img src="/ic_setting.svg" alt="setting" />
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setToggleSetting(!toggleSetting)}
+              className="p-1 hover:bg-zinc-300 rounded-full"
+            >
+              <img src="/ic_setting.svg" alt="setting" />
+            </button>
+
+            {toggleSetting && <Setting />}
+          </div>
 
           {user ? (
             <button className="relative">
@@ -85,16 +94,16 @@ function Header() {
                 />
               </div>
 
-              <div
-                onClick={onLogout}
-                className={
-                  toggleLogout
-                    ? "absolute right-0 top-8 bg-zinc-300 hover:bg-zinc-400 py-1 px-3 rounded-md"
-                    : "hidden"
-                }
-              >
-                Logout
-              </div>
+              {toggleLogout && (
+                <div
+                  onClick={onLogout}
+                  className="top-8 absolute transition duration-200 ease-in-out right-0"
+                >
+                  <p className="right-0 bg-zinc-50 shadow-md hover:bg-zinc-200 py-1 px-3 rounded-md">
+                    Logout
+                  </p>
+                </div>
+              )}
             </button>
           ) : (
             <Link
