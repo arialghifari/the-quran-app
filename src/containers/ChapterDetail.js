@@ -8,6 +8,7 @@ import {
 import VerseList from "../components/VerseList";
 import AudioPlayer from "../components/AudioPlayer";
 import ChapterHeader from "../components/ChapterHeader";
+import Loading from "../components/Loading";
 
 function ChapterDetail() {
   const { chapter } = useParams();
@@ -28,7 +29,7 @@ function ChapterDetail() {
       {error || errorChapterDetail || errorChapterVerses ? (
         <p className="text-center">There was an error</p>
       ) : isLoading || isLoadingChapterDetail || isLoadingChapterVerses ? (
-        <p className="text-center">Loading...</p>
+        <Loading />
       ) : data && dataChapterDetail && dataChapterVerses ? (
         <div>
           <AudioPlayer />

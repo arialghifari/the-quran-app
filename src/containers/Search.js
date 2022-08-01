@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 import SearchList from "../components/SearchList";
 import { useSearchQuery } from "../services/quranApi";
 
@@ -38,7 +39,7 @@ function Search() {
       {error ? (
         <p className="text-center">There was an error</p>
       ) : isLoading ? (
-        <p className="text-center">Loading...</p>
+        <Loading />
       ) : data ? (
         <>
           <p className="text-zinc-800 font-semibold mb-4">

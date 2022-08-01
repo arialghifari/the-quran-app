@@ -15,7 +15,7 @@ function Register() {
           type="submit"
           className="bg-zinc-50 hover:bg-zinc-300 text-zinc-800 p-3 rounded-md flex items-center justify-center gap-3"
         >
-          <img src="/ic_google.svg" alt="" className="w-6" />
+          <img src="/ic_google.svg" alt="google" className="w-6" />
           Sign Up With Google
         </button>
         <div className="text-center my-6 relative flex justify-center">

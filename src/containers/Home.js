@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ChapterList from "../components/ChapterList";
+import Loading from "../components/Loading";
 import { pause } from "../reducers/audioSlice";
 import { useQuranQuery } from "../services/quranApi";
 
@@ -19,7 +20,7 @@ function Home() {
       {error ? (
         <p className="text-center">There was an error</p>
       ) : isLoading ? (
-        <p className="text-center">Loading...</p>
+        <Loading />
       ) : data ? (
         <ChapterList item={data} />
       ) : null}

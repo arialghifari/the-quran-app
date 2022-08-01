@@ -7,6 +7,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { pause } from "../reducers/audioSlice";
+import Loading from "../components/Loading";
 
 function ChapterInfo() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ function ChapterInfo() {
       {errorChapterDetail || errorChapterInfo ? (
         <p className="text-center">There was an error</p>
       ) : isLoadingChapterDetail || isLoadingChapterInfo ? (
-        <p className="text-center">Loading...</p>
+        <Loading />
       ) : dataChapterDetail || dataChapterInfo ? (
         <div className="flex gap-6">
           <div className="basis-1/4">

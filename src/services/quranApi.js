@@ -16,6 +16,9 @@ export const quranApi = createApi({
     chapterTranslation: build.query({
       query: (id) => `/quran/translations/131?chapter_number=${id}`,
     }),
+    chapterTransliteration: build.query({
+      query: (id) => `/quran/translations/57?chapter_number=${id}`,
+    }),
     chapterRecitation: build.query({
       query: ({ id, page }) => `/recitations/7/by_chapter/${id}?page=${page}`,
     }),
@@ -36,6 +39,7 @@ export const {
   useQuranQuery,
   useChapterVersesQuery,
   useChapterTranslationQuery,
+  useChapterTransliterationQuery,
   useChapterRecitationQuery,
   useChapterDetailQuery,
   useChapterInfoQuery,
