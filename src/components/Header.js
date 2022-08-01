@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../config/firebase";
+import { signOut } from "firebase/auth";
 
 function Header() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [toggleLogout, setToggleLogout] = useState(false);
+
+  const [user] = useAuthState(auth);
+
+  const username = user?.displayName
+    ? user?.displayName
+    : user?.email.split("@")[0];
+  const userPicture = user?.photoURL ? `${user?.photoURL}` : "/user_image.png";
 
   const handleSearchOnClick = () => {
     if (!searchQuery) return;
@@ -13,6 +24,16 @@ function Header() {
   const handleSearchOnEnter = (key) => {
     if (!searchQuery) return;
     if (key === "Enter") navigate(`/search/${searchQuery}/1`);
+  };
+
+  const onLogout = async () => {
+    try {
+      await signOut(auth);
+      setToggleLogout(false);
+      navigate("/login");
+    } catch (error) {
+      <p>{error.message}</p>;
+    }
   };
 
   return (
@@ -43,10 +64,45 @@ function Header() {
           <button className="p-1 hover:bg-zinc-300 rounded-full">
             <img src="/ic_setting.svg" alt="setting" />
           </button>
-          
-          <Link to="/login" className="text-zinc-800 py-1 px-2 rounded-md hover:bg-zinc-300">
-            LOGIN
-          </Link>
+
+          {user ? (
+            <button className="relative">
+              <div
+                onClick={() => setToggleLogout(!toggleLogout)}
+                className="cursor-pointer flex items-center gap-2 "
+              >
+                <p>{username}</p>
+                <img
+                  src={userPicture}
+                  alt="Profile"
+                  className="w-6 rounded-full"
+                />
+                <img
+                  src="/ic_arrow_down.svg"
+                  alt="arrow down"
+                  className="scale-90"
+                />
+              </div>
+
+              <div
+                onClick={onLogout}
+                className={
+                  toggleLogout
+                    ? "absolute right-0 top-8 bg-zinc-300 hover:bg-zinc-400 py-1 px-3 rounded-md"
+                    : "hidden"
+                }
+              >
+                Logout
+              </div>
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="text-zinc-800 py-1 px-2 rounded-md hover:bg-zinc-300"
+            >
+              LOGIN
+            </Link>
+          )}
         </div>
       </div>
     </div>

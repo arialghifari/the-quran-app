@@ -1,10 +1,55 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "../config/firebase";
 
 function Register() {
   window.scrollTo(0, 0);
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const navigate = useNavigate();
+
+  const provider = new GoogleAuthProvider();
+  const signInWithGoogle = () => signInWithPopup(auth, provider);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = data.get("email");
+    const password = data.get("password");
+
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      navigate("/");
+      return user;
+    } catch (error) {
+      let errMessage = "There was an error";
+      const sanitizeErrMsg = error.message.split("/")[1].split(")")[0];
+
+      if (sanitizeErrMsg === "invalid-email") {
+        errMessage = "Invalid email address";
+      }
+
+      if (sanitizeErrMsg === "weak-password") {
+        errMessage = "Password should be at least 6 characters";
+      }
+
+      if (sanitizeErrMsg === "email-already-in-use") {
+        errMessage = "Email already in use";
+      }
+
+      setErrorMessage(`* ${errMessage}`);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center my-32 gap-10">
@@ -12,6 +57,7 @@ function Register() {
         <p className="text-2xl mb-4 text-center text-zinc-800">REGISTER</p>
 
         <button
+          onClick={signInWithGoogle}
           type="submit"
           className="bg-zinc-50 hover:bg-zinc-300 text-zinc-800 p-3 rounded-md flex items-center justify-center gap-3"
         >
@@ -25,7 +71,7 @@ function Register() {
           <p className="bg-default px-4 z-20 text-zinc-500">or</p>
         </div>
 
-        <form className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
             type="email"
             name="email"
@@ -51,6 +97,7 @@ function Register() {
             </div>
           </div>
 
+          {errorMessage && <p className="text-red-600">{errorMessage}</p>}
           <button
             type="submit"
             className="bg-primary text-zinc-50 hover:bg-primary/80 p-3 rounded-md"
