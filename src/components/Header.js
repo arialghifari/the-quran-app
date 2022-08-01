@@ -44,9 +44,9 @@ function Header() {
             <img src="/ic_setting.svg" alt="setting" />
           </button>
           
-          <button className="text-zinc-800 py-1 px-2 rounded-md hover:bg-zinc-300">
+          <Link to="/login" className="text-zinc-800 py-1 px-2 rounded-md hover:bg-zinc-300">
             LOGIN
-          </button>
+          </Link>
         </div>
       </div>
     </div>

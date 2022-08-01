@@ -6,6 +6,8 @@ import ChapterDetail from "./containers/ChapterDetail.js";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
 import Search from "./containers/Search";
+import Login from "./containers/Login";
+import Register from "./containers/Register";
 
 function App() {
   return (
@@ -17,7 +19,8 @@ function App() {
         <Route path="/:chapter" element={<ChapterInfo />} />
         <Route path="/:chapter/:verse" element={<ChapterDetail />} />
         <Route path="/search/:query/:page" element={<Search />} />
-        <Route path="/search" element={<>404 Not Found</>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<>404 Not Found</>} />
       </Routes>
       <Footer />
