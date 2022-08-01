@@ -1,18 +1,24 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { auth } from "../config/firebase";
 import { pause, play, selectIsPlaying } from "../reducers/audioSlice";
 
 function ChapterHeader({ item, verseLength }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { chapter } = useParams();
   const isPlaying = useSelector(selectIsPlaying);
+  const [user] = useAuthState(auth);
 
   const togglePlay = () => {
+    if (!user) return navigate("/login");
     dispatch(play());
   };
 
   const togglePause = () => {
+    if (!user) return navigate("/login");
     dispatch(pause());
   };
 

@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_AUDIO_VERSE } from "../apis/quran";
+import { auth } from "../config/firebase";
 import { pause, play, selectIsPlaying } from "../reducers/audioSlice";
 import { useChapterRecitationQuery } from "../services/quranApi";
 
@@ -14,6 +16,7 @@ function AudioPlayer() {
   const [recitationPage, setRecitationPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const isPlaying = useSelector(selectIsPlaying);
+  const [user] = useAuthState(auth);
 
   const audioPlayer = useRef();
 
@@ -45,15 +48,18 @@ function AudioPlayer() {
   }, [dataRecitation]);
 
   const handlePrevAyah = () => {
+    if (!user) return navigate("/login");
     if (verseInt - 1 !== 0) navigate(`/${chapter}/${verseInt - 1}`);
   };
 
   const handleNextAyah = () => {
+    if (!user) return navigate("/login");
     if (verseInt + 1 <= allRecitation.length)
       navigate(`/${chapter}/${verseInt + 1}`);
   };
 
   const handleOnEnded = () => {
+    if (!user) return navigate("/login");
     if (verseInt + 1 <= allRecitation.length) {
       navigate(`/${chapter}/${verseInt + 1}`);
       dispatch(play());
@@ -63,10 +69,12 @@ function AudioPlayer() {
   };
 
   const togglePlay = () => {
+    if (!user) return navigate("/login");
     dispatch(play());
   };
 
   const togglePause = () => {
+    if (!user) return navigate("/login");
     dispatch(pause());
   };
 

@@ -3,6 +3,8 @@ import parse from "html-react-parser";
 import { useParams, useNavigate } from "react-router-dom";
 import { selectIsPlaying, pause, play } from "../reducers/audioSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../config/firebase";
 
 function Verse({ item }) {
   const dispatch = useDispatch();
@@ -11,6 +13,7 @@ function Verse({ item }) {
   const isPlaying = useSelector(selectIsPlaying);
   const isActive = item.id === parseInt(verse);
   const activeVerse = `${chapter}:${verse}`;
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     const activeId = document.getElementById(activeVerse);
@@ -29,6 +32,7 @@ function Verse({ item }) {
   }, [activeVerse, isPlaying]);
 
   const togglePlay = (verseKey) => {
+    if (!user) return navigate("/login");
     const verse = verseKey.split(":")[1];
 
     navigate(`/${chapter}/${verse}`);
@@ -36,6 +40,7 @@ function Verse({ item }) {
   };
 
   const togglePause = () => {
+    if (!user) return navigate("/login");
     dispatch(pause());
   };
 

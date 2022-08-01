@@ -76,6 +76,7 @@ function Header() {
                   src={userPicture}
                   alt="Profile"
                   className="w-6 rounded-full"
+                  referrerPolicy="no-referrer"
                 />
                 <img
                   src="/ic_arrow_down.svg"
