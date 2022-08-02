@@ -47,6 +47,7 @@ function Setting() {
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
             >
               <option value="Small">Small</option>
+              <option value="Regular">Regular</option>
               <option value="Medium">Medium</option>
               <option value="Large">Large</option>
             </select>
@@ -62,6 +63,7 @@ function Setting() {
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
             >
               <option value="Small">Small</option>
+              <option value="Regular">Regular</option>
               <option value="Medium">Medium</option>
               <option value="Large">Large</option>
             </select>

@@ -4,18 +4,34 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../config/firebase";
+import { Link } from "react-router-dom";
+import { auth, db } from "../config/firebase";
+import { doc, runTransaction, setDoc } from "firebase/firestore";
 
 function Login() {
   window.scrollTo(0, 0);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const navigate = useNavigate();
 
   const provider = new GoogleAuthProvider();
-  const signInWithGoogle = () => signInWithPopup(auth, provider);
+  const signInWithGoogle = () => {
+    return signInWithPopup(auth, provider).then(async (result) => {
+      await runTransaction(db, async (transaction) => {
+        const userDocRef = doc(db, "users", result.user.uid);
+        const userDocSnap = await transaction.get(userDocRef);
+
+        if (!userDocSnap.exists()) {
+          await setDoc(userDocRef, {
+            bookmarks: [],
+            text_arabic: "Regular",
+            text_translation: "Regular",
+            translation: "Show",
+          });
+        }
+      });
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,7 +41,7 @@ function Login() {
 
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+
       return user;
     } catch (error) {
       let errMessage = "There was an error";

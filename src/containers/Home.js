@@ -12,6 +12,9 @@ function Home() {
 
   useEffect(() => {
     dispatch(pause());
+
+    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
