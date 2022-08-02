@@ -10,7 +10,7 @@ import AudioPlayer from "../components/AudioPlayer";
 import ChapterHeader from "../components/ChapterHeader";
 import Loading from "../components/Loading";
 
-function ChapterDetail() {  window.scrollTo(0, 0);
+function ChapterDetail() {
   const { chapter } = useParams();
   const { data, error, isLoading } = useQuranQuery();
   const {

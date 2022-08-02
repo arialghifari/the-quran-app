@@ -18,7 +18,7 @@ function Login() {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   const provider = new GoogleAuthProvider();
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     return signInWithPopup(auth, provider).then(async (result) => {
       await runTransaction(db, async (transaction) => {
         const userDocRef = doc(db, "users", result.user.uid);
