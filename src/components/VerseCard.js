@@ -4,13 +4,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { selectIsPlaying, pause, play } from "../reducers/audioSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import {
   selectBookmarks,
   selectTextArabic,
   selectTextTranslation,
   selectTranslation,
+  addBookmark,
+  removeBookmark,
 } from "../reducers/firebaseSlice";
+import { doc, setDoc } from "firebase/firestore";
 
 function Verse({ item }) {
   const dispatch = useDispatch();
@@ -42,6 +45,22 @@ function Verse({ item }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeVerse, isPlaying]);
 
+  useEffect(() => {
+    const updateFirebase = async () => {
+      if (user) {
+        await setDoc(doc(db, "users", user.uid), {
+          bookmarks: bookmarks,
+          text_arabic: textArabic,
+          text_translation: textTranslation,
+          translation: translation,
+        });
+      }
+    };
+
+    updateFirebase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookmarks]);
+
   const togglePlay = (verseKey) => {
     if (!user) return navigate("/login");
     const verse = verseKey.split(":")[1];
@@ -53,6 +72,16 @@ function Verse({ item }) {
   const togglePause = () => {
     if (!user) return navigate("/login");
     dispatch(pause());
+  };
+
+  const handleRemoveBookmark = () => {
+    if (!user) return navigate("/login");
+    dispatch(removeBookmark(item.verse_key));
+  };
+
+  const handleAddBookmark = () => {
+    if (!user) return navigate("/login");
+    dispatch(addBookmark(item.verse_key));
   };
 
   const getTextArabic = () => {
@@ -106,11 +135,11 @@ function Verse({ item }) {
           )}
 
           {match ? (
-            <button>
+            <button onClick={() => handleRemoveBookmark(item.verse_key)}>
               <img src="/ic_bookmark_filled.svg" alt="bookmark" />
             </button>
           ) : (
-            <button>
+            <button onClick={() => handleAddBookmark(item.verse_key)}>
               <img src="/ic_bookmark_outline.svg" alt="bookmark" />
             </button>
           )}

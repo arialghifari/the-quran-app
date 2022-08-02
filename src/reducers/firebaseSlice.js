@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const firebaseSlice = createSlice({
   name: "firebase",
   initialState: {
-    bookmarks: [],
+    bookmarks: ["1:1", "2:2", "3:3"],
     translation: true,
     text_arabic: "Regular",
     text_translation: "Regular",
@@ -29,6 +29,18 @@ const firebaseSlice = createSlice({
     updateTextTranslation: (state, action) => {
       return { ...state, text_translation: action.payload };
     },
+    addBookmark: (state, action) => {
+      const addBookmark = [...state.bookmarks, action.payload];
+
+      return { ...state, bookmarks: addBookmark };
+    },
+    removeBookmark: (state, action) => {
+      const removeBookmark = [...state.bookmarks].filter(
+        (item) => item !== action.payload
+      );
+
+      return { ...state, bookmarks: removeBookmark };
+    },
   },
 });
 
@@ -43,5 +55,7 @@ export const {
   hideTranslation,
   updateTextArabic,
   updateTextTranslation,
+  addBookmark,
+  removeBookmark,
 } = firebaseSlice.actions;
 export default firebaseSlice.reducer;

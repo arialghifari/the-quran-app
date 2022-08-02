@@ -19,7 +19,7 @@ function BookmarkCard({ item }) {
       ) : isLoadingChapterDetail ? (
         <></>
       ) : dataChapterDetail ? (
-        <div className="w-fit">
+        <div className="w-fit whitespace-nowrap">
           <Link to={`/${chapter}/${verse}`}>
             <div className="logo w-fit text-zinc-50 py-1 px-4 rounded-md text-center">
               <p>{item}</p>
