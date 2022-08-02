@@ -23,6 +23,12 @@ const firebaseSlice = createSlice({
     hideTranslation: (state) => {
       return { ...state, translation: false };
     },
+    updateTextArabic: (state, action) => {
+      return { ...state, text_arabic: action.payload };
+    },
+    updateTextTranslation: (state, action) => {
+      return { ...state, text_translation: action.payload };
+    },
   },
 });
 
@@ -31,6 +37,11 @@ export const selectTranslation = (state) => state.firebase.translation;
 export const selectTextArabic = (state) => state.firebase.text_arabic;
 export const selectTextTranslation = (state) => state.firebase.text_translation;
 
-export const { initialize, showTranslation, hideTranslation } =
-  firebaseSlice.actions;
+export const {
+  initialize,
+  showTranslation,
+  hideTranslation,
+  updateTextArabic,
+  updateTextTranslation,
+} = firebaseSlice.actions;
 export default firebaseSlice.reducer;

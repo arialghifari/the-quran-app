@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectTextArabic,
@@ -10,7 +10,10 @@ import {
   selectBookmarks,
   showTranslation,
   hideTranslation,
+  updateTextArabic,
+  updateTextTranslation,
 } from "../reducers/firebaseSlice";
+import { setDoc, doc } from "firebase/firestore";
 
 function Setting() {
   const [user] = useAuthState(auth);
@@ -20,6 +23,20 @@ function Setting() {
   const translation = useSelector(selectTranslation);
   const textArabic = useSelector(selectTextArabic);
   const textTranslation = useSelector(selectTextTranslation);
+
+  useEffect(() => {
+    const updateFirebase = async () => {
+      await setDoc(doc(db, "users", user.uid), {
+        bookmarks: bookmarks,
+        text_arabic: textArabic,
+        text_translation: textTranslation,
+        translation: translation,
+      });
+    };
+
+    updateFirebase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [translation, textArabic, textTranslation]);
 
   return (
     <div className="absolute right-0 top-9 bg-zinc-50 min-w-max py-4 px-4 w-72 flex flex-col gap-4 rounded-md shadow-md">
@@ -61,9 +78,11 @@ function Setting() {
               Text Arabic
             </label>
             <select
+              onChange={(e) => dispatch(updateTextArabic(e.target.value))}
               name="text_arabic"
               id="text-arabic"
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
+              defaultValue={textArabic}
             >
               <option value="Small">Small</option>
               <option value="Regular">Regular</option>
@@ -77,9 +96,11 @@ function Setting() {
               Text Translation
             </label>
             <select
+              onChange={(e) => dispatch(updateTextTranslation(e.target.value))}
               name="text_translation"
               id="text-translation"
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
+              defaultValue={textTranslation}
             >
               <option value="Small">Small</option>
               <option value="Regular">Regular</option>
