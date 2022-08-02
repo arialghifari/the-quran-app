@@ -44,7 +44,7 @@ function ChapterInfo() {
               to={`/${chapter}/1`}
               className="mb-4 flex items-center py-0.5 hover:bg-zinc-300 justify-center rounded-md"
             >
-              <img src="ic_back.svg" alt="" />
+              <img src="/ic_back.svg" alt="" />
               Read Surah
             </Link>
             <div className="chapter-info w-full h-fit text-zinc-50 p-5 text-center rounded-md flex flex-col gap-2">

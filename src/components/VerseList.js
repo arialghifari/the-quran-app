@@ -5,10 +5,41 @@ import {
   useChapterVersesQuery,
 } from "../services/quranApi";
 import VerseCard from "./VerseCard";
+import {
+  selectBookmarks,
+  selectTextArabic,
+  selectTextTranslation,
+} from "../reducers/firebaseSlice";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useSelector } from "react-redux";
 
 function VerseList() {
   const { chapter } = useParams();
   const [chapterDetail, setChapterDetail] = useState([]);
+
+  const [user] = useAuthState(auth);
+  const translation = useSelector(selectTextTranslation);
+  const textArabic = useSelector(selectTextArabic);
+  const textTranslation = useSelector(selectTextTranslation);
+  const bookmarks = useSelector(selectBookmarks);
+
+  useEffect(() => {
+    const updateFirebase = async () => {
+      if (user) {
+        await setDoc(doc(db, "users", user.uid), {
+          bookmarks: bookmarks,
+          text_arabic: textArabic,
+          text_translation: textTranslation,
+          translation: translation,
+        });
+      }
+    };
+
+    updateFirebase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookmarks]);
 
   const {
     data: dataChapterVerses,

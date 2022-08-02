@@ -5,6 +5,7 @@ import ChapterList from "../components/ChapterList";
 import Loading from "../components/Loading";
 import { pause } from "../reducers/audioSlice";
 import { selectBookmarks } from "../reducers/firebaseSlice";
+
 import { useQuranQuery } from "../services/quranApi";
 
 function Home() {

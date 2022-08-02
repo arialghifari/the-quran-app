@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { selectIsPlaying, pause, play } from "../reducers/audioSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../config/firebase";
+import { auth } from "../config/firebase";
 import {
   selectBookmarks,
   selectTextArabic,
@@ -13,7 +13,7 @@ import {
   addBookmark,
   removeBookmark,
 } from "../reducers/firebaseSlice";
-import { doc, setDoc } from "firebase/firestore";
+
 
 function Verse({ item }) {
   const dispatch = useDispatch();
@@ -44,22 +44,6 @@ function Verse({ item }) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeVerse, isPlaying]);
-
-  useEffect(() => {
-    const updateFirebase = async () => {
-      if (user) {
-        await setDoc(doc(db, "users", user.uid), {
-          bookmarks: bookmarks,
-          text_arabic: textArabic,
-          text_translation: textTranslation,
-          translation: translation,
-        });
-      }
-    };
-
-    updateFirebase();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookmarks]);
 
   const togglePlay = (verseKey) => {
     if (!user) return navigate("/login");
