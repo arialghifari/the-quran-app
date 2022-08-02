@@ -46,7 +46,6 @@ const firebaseSlice = createSlice({
   },
 });
 
-export const selectUID = (state) => state.firebase.uid;
 export const selectBookmarks = (state) => state.firebase.bookmarks;
 export const selectTranslation = (state) => state.firebase.translation;
 export const selectTextArabic = (state) => state.firebase.text_arabic;
