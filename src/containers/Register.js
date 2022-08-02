@@ -61,7 +61,7 @@ function Register() {
               bookmarks: [],
               text_arabic: "Regular",
               text_translation: "Regular",
-              translation: "Show",
+              translation: true,
             });
           } else {
             const dataSnap = await getDoc(userDocRef);

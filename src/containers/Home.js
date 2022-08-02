@@ -1,4 +1,4 @@
-import { doc, getDoc, runTransaction, setDoc } from "firebase/firestore";
+import { doc, getDoc, runTransaction } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,20 +26,9 @@ function Home() {
       if (user) {
         await runTransaction(db, async (transaction) => {
           const userDocRef = doc(db, "users", user.uid);
-          const userDocSnap = await transaction.get(userDocRef);
+          const dataSnap = await getDoc(userDocRef);
 
-          if (!userDocSnap.exists()) {
-            await setDoc(userDocRef, {
-              bookmarks: [],
-              text_arabic: "Regular",
-              text_translation: "Regular",
-              translation: true,
-            });
-          } else {
-            const dataSnap = await getDoc(userDocRef);
-
-            dispatch(initialize(dataSnap.data()));
-          }
+          dispatch(initialize(dataSnap.data()));
         });
       }
     };
