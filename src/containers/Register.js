@@ -26,7 +26,7 @@ function Register() {
             bookmarks: [],
             text_arabic: "Regular",
             text_translation: "Regular",
-            translation: "Show",
+            translation: true,
           });
         }
       });

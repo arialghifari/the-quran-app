@@ -6,11 +6,14 @@ import {
 } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { auth, db } from "../config/firebase";
-import { doc, runTransaction, setDoc } from "firebase/firestore";
+import { doc, getDoc, runTransaction, setDoc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { initialize } from "../reducers/firebaseSlice";
 
 function Login() {
   window.scrollTo(0, 0);
 
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
@@ -26,8 +29,12 @@ function Login() {
             bookmarks: [],
             text_arabic: "Regular",
             text_translation: "Regular",
-            translation: "Show",
+            translation: true,
           });
+        } else {
+          const dataSnap = await getDoc(userDocRef);
+
+          dispatch(initialize(dataSnap.data()));
         }
       });
     });

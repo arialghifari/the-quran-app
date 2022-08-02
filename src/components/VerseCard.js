@@ -5,15 +5,18 @@ import { selectIsPlaying, pause, play } from "../reducers/audioSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
+import { selectTranslation } from "../reducers/firebaseSlice";
 
 function Verse({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { chapter, verse } = useParams();
-  const isPlaying = useSelector(selectIsPlaying);
   const isActive = item.id === parseInt(verse);
   const activeVerse = `${chapter}:${verse}`;
   const [user] = useAuthState(auth);
+
+  const isPlaying = useSelector(selectIsPlaying);
+  const translation = useSelector(selectTranslation);
 
   useEffect(() => {
     const activeId = document.getElementById(activeVerse);
@@ -54,7 +57,7 @@ function Verse({ item }) {
       <p className="text-right font-serif text-zinc-800 font-semibold text-3xl leading-relaxed">
         {item.arabic}
       </p>
-      <p className="mt-2">{parse(item.translation)}</p>
+      {translation && <p className="mt-2">{parse(item.translation)}</p>}
       <hr className="border" />
       <div className="flex justify-between items-center">
         <p className="text-primary font-bold">{item.verse_key}</p>
