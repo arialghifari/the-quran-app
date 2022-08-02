@@ -7,12 +7,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBxFzF_XfuBhSn0j2tHN9ZioR0PBUIg168",
-  authDomain: "the-quran-app-1f843.firebaseapp.com",
-  projectId: "the-quran-app-1f843",
-  storageBucket: "the-quran-app-1f843.appspot.com",
-  messagingSenderId: "441801810604",
-  appId: "1:441801810604:web:4cb78656a3d3185d72b509",
+  apiKey: "AIzaSyDjRgfrlsDdnVtrpvS_i-aKl5T4WloP1PE",
+  authDomain: "the-quran-app-d1c8c.firebaseapp.com",
+  projectId: "the-quran-app-d1c8c",
+  storageBucket: "the-quran-app-d1c8c.appspot.com",
+  messagingSenderId: "538190269957",
+  appId: "1:538190269957:web:540aa1321c1e38419b566c",
 };
 
 // Initialize Firebase
