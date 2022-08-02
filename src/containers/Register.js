@@ -6,11 +6,14 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth, db } from "../config/firebase";
-import { doc, runTransaction, setDoc } from "firebase/firestore";
+import { doc, getDoc, runTransaction, setDoc } from "firebase/firestore";
+import { initialize } from "../reducers/firebaseSlice";
+import { useDispatch } from "react-redux";
 
 function Register() {
   window.scrollTo(0, 0);
 
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
@@ -28,6 +31,10 @@ function Register() {
             text_translation: "Regular",
             translation: true,
           });
+        } else {
+          const dataSnap = await getDoc(userDocRef);
+
+          dispatch(initialize(dataSnap.data()));
         }
       });
     });
@@ -56,6 +63,10 @@ function Register() {
               text_translation: "Regular",
               translation: "Show",
             });
+          } else {
+            const dataSnap = await getDoc(userDocRef);
+
+            dispatch(initialize(dataSnap.data()));
           }
         });
       });
@@ -63,7 +74,7 @@ function Register() {
       return user;
     } catch (error) {
       let errMessage = "There was an error";
-      const sanitizeErrMsg = error.message.split("/")[1].split(")")[0];
+      const sanitizeErrMsg = error.message?.split("/")[1]?.split(")")[0];
 
       if (sanitizeErrMsg === "invalid-email") {
         errMessage = "Invalid email address";

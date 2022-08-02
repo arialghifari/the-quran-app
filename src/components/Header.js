@@ -4,9 +4,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import Setting from "./Setting";
+import { useDispatch } from "react-redux";
+import { initialize } from "../reducers/firebaseSlice";
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [toggleLogout, setToggleLogout] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
@@ -32,6 +35,14 @@ function Header() {
     try {
       await signOut(auth);
       setToggleLogout(false);
+      dispatch(
+        initialize({
+          bookmarks: [],
+          translation: true,
+          text_arabic: "Regular",
+          text_translation: "Regular",
+        })
+      );
       navigate("/login");
     } catch (error) {
       <p>{error.message}</p>;

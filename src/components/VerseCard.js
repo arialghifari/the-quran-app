@@ -5,7 +5,11 @@ import { selectIsPlaying, pause, play } from "../reducers/audioSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
-import { selectTranslation } from "../reducers/firebaseSlice";
+import {
+  selectTextArabic,
+  selectTextTranslation,
+  selectTranslation,
+} from "../reducers/firebaseSlice";
 
 function Verse({ item }) {
   const dispatch = useDispatch();
@@ -17,6 +21,8 @@ function Verse({ item }) {
 
   const isPlaying = useSelector(selectIsPlaying);
   const translation = useSelector(selectTranslation);
+  const textArabic = useSelector(selectTextArabic);
+  const textTranslation = useSelector(selectTextTranslation);
 
   useEffect(() => {
     const activeId = document.getElementById(activeVerse);
@@ -47,6 +53,22 @@ function Verse({ item }) {
     dispatch(pause());
   };
 
+  const getTextArabic = () => {
+    if (textArabic === "Extra Small") return "text-xl";
+    if (textArabic === "Small") return "text-2xl";
+    if (textArabic === "Regular") return "text-3xl";
+    if (textArabic === "Large") return "text-4xl";
+    if (textArabic === "Extra Large") return "text-5xl";
+  };
+
+  const getTextTranslation = () => {
+    if (textTranslation === "Extra Small") return "text-xs";
+    if (textTranslation === "Small") return "text-sm";
+    if (textTranslation === "Regular") return "text-base";
+    if (textTranslation === "Large") return "text-lg";
+    if (textTranslation === "Extra Large") return "text-xl";
+  };
+
   return (
     <div
       className={`${
@@ -54,10 +76,16 @@ function Verse({ item }) {
       } flex flex-col gap-4 p-7 rounded-md bg-zinc-50`}
       id={item.verse_key}
     >
-      <p className="text-right font-serif text-zinc-800 font-semibold text-3xl leading-relaxed">
+      <p
+        className={`${getTextArabic()} text-right font-serif text-zinc-800 font-semibold leading-relaxed`}
+      >
         {item.arabic}
       </p>
-      {translation && <p className="mt-2">{parse(item.translation)}</p>}
+      {translation && (
+        <p className={`${getTextTranslation()} mt-2`}>
+          {parse(item.translation)}
+        </p>
+      )}
       <hr className="border" />
       <div className="flex justify-between items-center">
         <p className="text-primary font-bold">{item.verse_key}</p>

@@ -47,12 +47,34 @@ function Login() {
     const password = data.get("password");
 
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const { user } = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      ).then(async (result) => {
+        await runTransaction(db, async (transaction) => {
+          const userDocRef = doc(db, "users", result.user.uid);
+          const userDocSnap = await transaction.get(userDocRef);
+
+          if (!userDocSnap.exists()) {
+            await setDoc(userDocRef, {
+              bookmarks: [],
+              text_arabic: "Regular",
+              text_translation: "Regular",
+              translation: "Show",
+            });
+          } else {
+            const dataSnap = await getDoc(userDocRef);
+
+            dispatch(initialize(dataSnap.data()));
+          }
+        });
+      });
 
       return user;
     } catch (error) {
       let errMessage = "There was an error";
-      const sanitizeErrMsg = error.message.split("/")[1].split(")")[0];
+      const sanitizeErrMsg = error.message?.split("/")[1]?.split(")")[0];
 
       if (sanitizeErrMsg === "too-many-requests") {
         errMessage = "Too many request. Please try again later";

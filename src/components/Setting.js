@@ -46,6 +46,44 @@ function Setting() {
       {user ? (
         <>
           <div className="flex flex-col items-start">
+            <label htmlFor="text-arabic" className="cursor-pointer">
+              Text Arabic Size
+            </label>
+            <select
+              onChange={(e) => dispatch(updateTextArabic(e.target.value))}
+              name="text_arabic"
+              id="text-arabic"
+              className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
+              defaultValue={textArabic}
+            >
+              <option value="Extra Small">Extra Small</option>
+              <option value="Small">Small</option>
+              <option value="Regular">Regular</option>
+              <option value="Large">Large</option>
+              <option value="Extra Large">Extra Large</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col items-start">
+            <label htmlFor="text-translation" className="cursor-pointer">
+              Text Translation Size
+            </label>
+            <select
+              onChange={(e) => dispatch(updateTextTranslation(e.target.value))}
+              name="text_translation"
+              id="text-translation"
+              className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
+              defaultValue={textTranslation}
+            >
+              <option value="Extra Small">Extra Small</option>
+              <option value="Small">Small</option>
+              <option value="Regular">Regular</option>
+              <option value="Large">Large</option>
+              <option value="Extra Large">Extra Large</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col items-start">
             <p>Translation</p>
             <div className="flex gap-3 items-center">
               <label htmlFor="show-translation">
@@ -71,42 +109,6 @@ function Setting() {
                 Hide
               </label>
             </div>
-          </div>
-
-          <div className="flex flex-col items-start">
-            <label htmlFor="text-arabic" className="cursor-pointer">
-              Text Arabic
-            </label>
-            <select
-              onChange={(e) => dispatch(updateTextArabic(e.target.value))}
-              name="text_arabic"
-              id="text-arabic"
-              className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
-              defaultValue={textArabic}
-            >
-              <option value="Small">Small</option>
-              <option value="Regular">Regular</option>
-              <option value="Medium">Medium</option>
-              <option value="Large">Large</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col items-start">
-            <label htmlFor="text-translation" className="cursor-pointer">
-              Text Translation
-            </label>
-            <select
-              onChange={(e) => dispatch(updateTextTranslation(e.target.value))}
-              name="text_translation"
-              id="text-translation"
-              className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm"
-              defaultValue={textTranslation}
-            >
-              <option value="Small">Small</option>
-              <option value="Regular">Regular</option>
-              <option value="Medium">Medium</option>
-              <option value="Large">Large</option>
-            </select>
           </div>
         </>
       ) : (
