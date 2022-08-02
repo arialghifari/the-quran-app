@@ -18,7 +18,7 @@ function SearchCard({ item }) {
       {errorChapterDetail ? (
         <p className="text-center">There was an error</p>
       ) : isLoadingChapterDetail ? (
-        <p className="text-center">Loading...</p>
+        <></>
       ) : dataChapterDetail ? (
         <div className="search-card">
           <div

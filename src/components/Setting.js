@@ -26,12 +26,14 @@ function Setting() {
 
   useEffect(() => {
     const updateFirebase = async () => {
-      await setDoc(doc(db, "users", user.uid), {
-        bookmarks: bookmarks,
-        text_arabic: textArabic,
-        text_translation: textTranslation,
-        translation: translation,
-      });
+      if (user) {
+        await setDoc(doc(db, "users", user.uid), {
+          bookmarks: bookmarks,
+          text_arabic: textArabic,
+          text_translation: textTranslation,
+          translation: translation,
+        });
+      }
     };
 
     updateFirebase();

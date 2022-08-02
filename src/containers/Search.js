@@ -16,8 +16,6 @@ function Search() {
     page: currentPage,
   });
 
-  console.log(data);
-
   useEffect(() => {
     setCurrentPage(page);
   }, [page]);

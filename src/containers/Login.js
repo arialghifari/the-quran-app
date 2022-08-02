@@ -65,6 +65,7 @@ function Login() {
             });
           } else {
             const dataSnap = await getDoc(userDocRef);
+            console.log(dataSnap.data());
 
             dispatch(initialize(dataSnap.data()));
           }

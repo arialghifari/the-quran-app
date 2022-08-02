@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
 import {
+  selectBookmarks,
   selectTextArabic,
   selectTextTranslation,
   selectTranslation,
@@ -23,6 +24,7 @@ function Verse({ item }) {
   const translation = useSelector(selectTranslation);
   const textArabic = useSelector(selectTextArabic);
   const textTranslation = useSelector(selectTextTranslation);
+  const bookmarks = useSelector(selectBookmarks);
 
   useEffect(() => {
     const activeId = document.getElementById(activeVerse);
@@ -69,6 +71,8 @@ function Verse({ item }) {
     if (textTranslation === "Extra Large") return "text-xl";
   };
 
+  const match = bookmarks.join(" ").match(item.verse_key)?.length;
+
   return (
     <div
       className={`${
@@ -101,9 +105,15 @@ function Verse({ item }) {
             </button>
           )}
 
-          <button>
-            <img src="/ic_bookmark_outline.svg" alt="bookmark" />
-          </button>
+          {match ? (
+            <button>
+              <img src="/ic_bookmark_filled.svg" alt="bookmark" />
+            </button>
+          ) : (
+            <button>
+              <img src="/ic_bookmark_outline.svg" alt="bookmark" />
+            </button>
+          )}
         </div>
       </div>
     </div>
