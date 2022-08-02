@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const firebaseSlice = createSlice({
   name: "firebase",
   initialState: {
-    bookmarks: ["1:1", "2:2", "3:3"],
+    bookmarks: [],
     translation: true,
     text_arabic: "Regular",
     text_translation: "Regular",
