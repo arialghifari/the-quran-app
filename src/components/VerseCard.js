@@ -100,7 +100,7 @@ function Verse({ item }) {
     if (textTranslation === "Extra Large") return "text-xl";
   };
 
-  const match = bookmarks.join(" ").match(item.verse_key)?.length;
+  const isBookmarked = bookmarks.join(" ").match(item.verse_key)?.length;
 
   return (
     <div
@@ -134,7 +134,7 @@ function Verse({ item }) {
             </button>
           )}
 
-          {match ? (
+          {isBookmarked ? (
             <button onClick={() => handleRemoveBookmark(item.verse_key)}>
               <img src="/ic_bookmark_filled.svg" alt="bookmark" />
             </button>
