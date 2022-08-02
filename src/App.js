@@ -7,6 +7,7 @@ import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
 import Search from "./containers/Search";
 import Login from "./containers/Login";
+import Page404 from "./containers/Page404";
 import Register from "./containers/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -18,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
-          path="/:chapter"
+          path="/:chapter/info"
           element={
             <ProtectedRoute>
               <ChapterInfo />
@@ -43,7 +44,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<>404 Not Found</>} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
       <Footer />
     </div>

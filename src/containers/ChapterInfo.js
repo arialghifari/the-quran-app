@@ -10,6 +10,8 @@ import { pause } from "../reducers/audioSlice";
 import Loading from "../components/Loading";
 
 function ChapterInfo() {
+  window.scrollTo(0, 0);
+
   const dispatch = useDispatch();
   const { chapter } = useParams();
 

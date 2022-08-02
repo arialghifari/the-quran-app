@@ -49,7 +49,7 @@ function ChapterHeader({ item, verseLength }) {
             {isPlaying ? "Pause" : "Play"} Audio
           </button>
           <Link
-            to={`/${chapter}`}
+            to={`/${chapter}/info`}
             className="w-fit text-zinc-800 hover:bg-zinc-300 py-1 px-2 rounded-md flex justify-center items-center gap-1"
           >
             <img src="/ic_info.svg" alt="info" />
