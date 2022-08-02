@@ -1,10 +1,13 @@
+import { doc, getDoc, runTransaction, setDoc } from "firebase/firestore";
 import React, { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch, useSelector } from "react-redux";
 import BookmarkList from "../components/BookmarkList";
 import ChapterList from "../components/ChapterList";
 import Loading from "../components/Loading";
+import { auth, db } from "../config/firebase";
 import { pause } from "../reducers/audioSlice";
-import { selectBookmarks } from "../reducers/firebaseSlice";
+import { initialize, selectBookmarks } from "../reducers/firebaseSlice";
 
 import { useQuranQuery } from "../services/quranApi";
 
@@ -14,11 +17,36 @@ function Home() {
   const { data, error, isLoading } = useQuranQuery();
 
   const bookmarks = useSelector(selectBookmarks);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     dispatch(pause());
+
+    const getBookmarks = async () => {
+      if (user) {
+        await runTransaction(db, async (transaction) => {
+          const userDocRef = doc(db, "users", user.uid);
+          const userDocSnap = await transaction.get(userDocRef);
+
+          if (!userDocSnap.exists()) {
+            await setDoc(userDocRef, {
+              bookmarks: [],
+              text_arabic: "Regular",
+              text_translation: "Regular",
+              translation: true,
+            });
+          } else {
+            const dataSnap = await getDoc(userDocRef);
+
+            dispatch(initialize(dataSnap.data()));
+          }
+        });
+      }
+    };
+
+    getBookmarks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <div className="container">

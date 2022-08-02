@@ -37,6 +37,7 @@ function Header() {
       setToggleLogout(false);
       dispatch(
         initialize({
+          uid: null,
           bookmarks: [],
           translation: true,
           text_arabic: "Regular",
