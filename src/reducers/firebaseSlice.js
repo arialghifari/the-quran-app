@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const firebaseSlice = createSlice({
   name: "firebase",
   initialState: {
-    uid: null,
     bookmarks: [],
     translation: true,
     text_arabic: "Regular",
@@ -12,7 +11,6 @@ const firebaseSlice = createSlice({
   reducers: {
     initialize: (state, action) => {
       return {
-        uid: action.payload.uid,
         bookmarks: action.payload.bookmarks,
         translation: action.payload.translation,
         text_arabic: action.payload.text_arabic,

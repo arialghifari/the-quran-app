@@ -9,6 +9,7 @@ import {
   selectBookmarks,
   selectTextArabic,
   selectTextTranslation,
+  selectTranslation,
 } from "../reducers/firebaseSlice";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
@@ -20,7 +21,7 @@ function VerseList() {
   const [chapterDetail, setChapterDetail] = useState([]);
 
   const [user] = useAuthState(auth);
-  const translation = useSelector(selectTextTranslation);
+  const translation = useSelector(selectTranslation);
   const textArabic = useSelector(selectTextArabic);
   const textTranslation = useSelector(selectTextTranslation);
   const bookmarks = useSelector(selectBookmarks);
