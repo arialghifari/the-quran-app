@@ -24,19 +24,9 @@ const firebaseSlice = createSlice({
       };
     },
     updateTextArabic: (state, action) => {
-      localStorage.setItem(
-        "the_quran_app",
-        JSON.stringify({ ...localData, text_arabic: action.payload })
-      );
-
       return { ...state, text_arabic: action.payload };
     },
     updateTextTranslation: (state, action) => {
-      localStorage.setItem(
-        "the_quran_app",
-        JSON.stringify({ ...localData, text_translation: action.payload })
-      );
-
       return { ...state, text_translation: action.payload };
     },
     addBookmark: (state, action) => {
@@ -70,19 +60,9 @@ const firebaseSlice = createSlice({
       return { ...state, bookmarks: removeBookmark };
     },
     toggleTranslation: (state, action) => {
-      localStorage.setItem(
-        "the_quran_app",
-        JSON.stringify({ ...localData, translation: action.payload })
-      );
-
       return { ...state, translation: action.payload };
     },
     toggleDarkmode: (state, action) => {
-      localStorage.setItem(
-        "the_quran_app",
-        JSON.stringify({ ...localData, darkmode: action.payload })
-      );
-
       return { ...state, darkmode: action.payload };
     },
   },

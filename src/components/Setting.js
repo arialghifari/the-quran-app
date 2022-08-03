@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { auth, db } from "../config/firebase";
@@ -8,6 +8,7 @@ import {
   updateTextTranslation,
   toggleDarkmode,
   toggleTranslation,
+  initialize,
 } from "../reducers/firebaseSlice";
 import { doc, updateDoc } from "firebase/firestore";
 
@@ -17,10 +18,20 @@ function Setting() {
 
   const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
+  useEffect(() => {
+    dispatch(initialize(localData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleTextArabic = async (value) => {
     await updateDoc(doc(db, "users", user.uid), {
       text_arabic: value,
     });
+
+    localStorage.setItem(
+      "the_quran_app",
+      JSON.stringify({ ...localData, text_arabic: value })
+    );
 
     dispatch(updateTextArabic(value));
   };
@@ -30,6 +41,11 @@ function Setting() {
       text_translation: value,
     });
 
+    localStorage.setItem(
+      "the_quran_app",
+      JSON.stringify({ ...localData, text_translation: value })
+    );
+
     dispatch(updateTextTranslation(value));
   };
 
@@ -38,6 +54,11 @@ function Setting() {
       translation: !value,
     });
 
+    localStorage.setItem(
+      "the_quran_app",
+      JSON.stringify({ ...localData, translation: !value })
+    );
+
     dispatch(toggleTranslation(!value));
   };
 
@@ -45,6 +66,11 @@ function Setting() {
     await updateDoc(doc(db, "users", user.uid), {
       darkmode: !value,
     });
+
+    localStorage.setItem(
+      "the_quran_app",
+      JSON.stringify({ ...localData, darkmode: !value })
+    );
 
     dispatch(toggleDarkmode(!value));
   };

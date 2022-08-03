@@ -16,16 +16,16 @@ function Home() {
   const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
   useEffect(() => {
-    dispatch(initialize(localData));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     localData?.darkmode
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [darkmode]);
+
+  useEffect(() => {
+    dispatch(initialize(localData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="container">
