@@ -1,3 +1,5 @@
+Live Demo: [The Quran App](https://the-quran-app.netlify.app/)
+
 # DTS Final Project
 
 Ketentuan lengkap bisa dilihat di [Final Project Guidelines](https://docs.google.com/document/d/1tIJWFEUr2NU8FZSxAA1IPi7ZYVn1jBDp6IdFUZjempg/edit?usp=sharing).

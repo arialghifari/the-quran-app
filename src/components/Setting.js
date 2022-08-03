@@ -48,7 +48,7 @@ function Setting() {
       {user ? (
         <>
           <div className="flex flex-col items-start">
-            <label htmlFor="text-arabic" className="cursor-pointer">
+            <label htmlFor="text-arabic">
               Text Arabic Size
             </label>
             <select
@@ -67,7 +67,7 @@ function Setting() {
           </div>
 
           <div className="flex flex-col items-start">
-            <label htmlFor="text-translation" className="cursor-pointer">
+            <label htmlFor="text-translation">
               Text Translation Size
             </label>
             <select
@@ -85,32 +85,21 @@ function Setting() {
             </select>
           </div>
 
-          <div className="flex flex-col items-start">
-            <p>Translation</p>
-            <div className="flex gap-3 items-center">
-              <label htmlFor="show-translation">
-                <input
-                  type="radio"
-                  id="show-translation"
-                  name="translation"
-                  className="mr-1"
-                  defaultChecked={translation}
-                  onClick={() => dispatch(showTranslation())}
-                />
-                Show
-              </label>
-              <label htmlFor="hide-translation">
-                <input
-                  type="radio"
-                  id="hide-translation"
-                  name="translation"
-                  className="mr-1"
-                  defaultChecked={!translation}
-                  onClick={() => dispatch(hideTranslation())}
-                />
-                Hide
-              </label>
-            </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="translation"
+              name="translation"
+              defaultChecked={translation}
+              onClick={() =>
+                translation
+                  ? dispatch(hideTranslation())
+                  : dispatch(showTranslation())
+              }
+            />
+            <label htmlFor="translation" className="cursor-pointer">
+              Show Translation
+            </label>
           </div>
         </>
       ) : (
