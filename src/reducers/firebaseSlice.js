@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
@@ -38,23 +40,31 @@ const firebaseSlice = createSlice({
       return { ...state, text_translation: action.payload };
     },
     addBookmark: (state, action) => {
-      const addBookmark = [...state.bookmarks, action.payload];
+      const addBookmark = [...state.bookmarks, action.payload.verse_key];
+
+      updateDoc(doc(db, "users", action.payload.uid), {
+        bookmarks: addBookmark,
+      });
 
       localStorage.setItem(
         "the_quran_app",
-        JSON.stringify({ ...localData, bookmarks: addBookmark })
+        JSON.stringify({ ...localData, bookmarks: [...addBookmark] })
       );
 
-      return { ...state, bookmarks: addBookmark };
+      return { ...state, bookmarks: [...addBookmark] };
     },
     removeBookmark: (state, action) => {
       const removeBookmark = [...state.bookmarks].filter(
-        (item) => item !== action.payload
+        (item) => item !== action.payload.verse_key
       );
+
+      updateDoc(doc(db, "users", action.payload.uid), {
+        bookmarks: removeBookmark,
+      });
 
       localStorage.setItem(
         "the_quran_app",
-        JSON.stringify({ ...localData, bookmarks: removeBookmark })
+        JSON.stringify({ ...localData, bookmarks: [...removeBookmark] })
       );
 
       return { ...state, bookmarks: removeBookmark };

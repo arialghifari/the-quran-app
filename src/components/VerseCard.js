@@ -6,12 +6,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebase";
 import {
+  addBookmark,
+  removeBookmark,
   selectBookmarks,
   selectTextArabic,
   selectTextTranslation,
   selectTranslation,
-  addBookmark,
-  removeBookmark,
 } from "../reducers/firebaseSlice";
 
 function Verse({ item }) {
@@ -21,12 +21,11 @@ function Verse({ item }) {
   const isActive = item.id === parseInt(verse);
   const activeVerse = `${chapter}:${verse}`;
   const [user] = useAuthState(auth);
-
   const isPlaying = useSelector(selectIsPlaying);
-  const translation = useSelector(selectTranslation);
   const textArabic = useSelector(selectTextArabic);
   const textTranslation = useSelector(selectTextTranslation);
   const bookmarks = useSelector(selectBookmarks);
+  const translation = useSelector(selectTranslation);
 
   useEffect(() => {
     const activeId = document.getElementById(activeVerse);
@@ -57,14 +56,15 @@ function Verse({ item }) {
     dispatch(pause());
   };
 
-  const handleRemoveBookmark = () => {
+  const handleRemoveBookmark = async () => {
     if (!user) return navigate("/login");
-    dispatch(removeBookmark(item.verse_key));
+
+    dispatch(removeBookmark({ verse_key: item.verse_key, uid: user.uid }));
   };
 
   const handleAddBookmark = () => {
     if (!user) return navigate("/login");
-    dispatch(addBookmark(item.verse_key));
+    dispatch(addBookmark({ verse_key: item.verse_key, uid: user.uid }));
   };
 
   const getTextArabic = () => {
