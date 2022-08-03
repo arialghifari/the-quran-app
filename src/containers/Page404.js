@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectDarkmode } from "../reducers/firebaseSlice";
 
 function Page404() {
   window.scrollTo(0, 0);
+  const darkmode = useSelector(selectDarkmode);
+
+  useEffect(() => {
+    darkmode
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark");
+  }, [darkmode]);
 
   return (
     <div className="flex justify-center mt-16 mb-32">

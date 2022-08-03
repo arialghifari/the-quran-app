@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import SearchList from "../components/SearchList";
+import { selectDarkmode } from "../reducers/firebaseSlice";
 import { useSearchQuery } from "../services/quranApi";
 
 function Search() {
-  // window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
   const { query, page } = useParams();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(page);
   const currentPageInt = parseInt(currentPage);
+  const darkmode = useSelector(selectDarkmode);
 
   const { data, error, isLoading } = useSearchQuery({
     query: query,
     page: currentPage,
   });
+
+  useEffect(() => {
+    darkmode
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark");
+  }, [darkmode]);
 
   useEffect(() => {
     setCurrentPage(page);

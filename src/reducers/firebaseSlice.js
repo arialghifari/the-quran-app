@@ -19,12 +19,6 @@ const firebaseSlice = createSlice({
         text_translation: action.payload.text_translation,
       };
     },
-    showTranslation: (state) => {
-      return { ...state, translation: true };
-    },
-    hideTranslation: (state) => {
-      return { ...state, translation: false };
-    },
     updateTextArabic: (state, action) => {
       return { ...state, text_arabic: action.payload };
     },
@@ -43,11 +37,11 @@ const firebaseSlice = createSlice({
 
       return { ...state, bookmarks: removeBookmark };
     },
-    setDarkmode: (state) => {
-      return { ...state, darkmode: true };
+    toggleTranslation: (state, action) => {
+      return { ...state, translation: action.payload };
     },
-    setLightmode: (state) => {
-      return { ...state, darkmode: false };
+    toggleDarkmode: (state, action) => {
+      return { ...state, darkmode: action.payload };
     },
   },
 });
@@ -60,13 +54,11 @@ export const selectTextTranslation = (state) => state.firebase.text_translation;
 
 export const {
   initialize,
-  showTranslation,
-  hideTranslation,
   updateTextArabic,
   updateTextTranslation,
   addBookmark,
   removeBookmark,
-  setDarkmode,
-  setLightmode,
+  toggleTranslation,
+  toggleDarkmode,
 } = firebaseSlice.actions;
 export default firebaseSlice.reducer;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   useChapterVersesQuery,
@@ -9,10 +9,20 @@ import VerseList from "../components/VerseList";
 import AudioPlayer from "../components/AudioPlayer";
 import ChapterHeader from "../components/ChapterHeader";
 import Loading from "../components/Loading";
+import { useSelector } from "react-redux";
+import { selectDarkmode } from "../reducers/firebaseSlice";
 
 function ChapterDetail() {
   const { chapter } = useParams();
   const { data, error, isLoading } = useQuranQuery();
+  const darkmode = useSelector(selectDarkmode);
+
+  useEffect(() => {
+    darkmode
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark");
+  }, [darkmode]);
+
   const {
     data: dataChapterVerses,
     error: errorChapterVerses,
