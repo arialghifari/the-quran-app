@@ -5,7 +5,7 @@ import SearchList from "../components/SearchList";
 import { useSearchQuery } from "../services/quranApi";
 
 function Search() {
-  window.scrollTo(0, 0);
+  // window.scrollTo(0, 0);
   const { query, page } = useParams();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(page);
@@ -40,7 +40,7 @@ function Search() {
         <Loading />
       ) : data ? (
         <>
-          <p className="text-zinc-800 font-semibold mb-4">
+          <p className="text-zinc-800 font-semibold mb-4 dark:text-zinc-300">
             Search result for "{query}"
           </p>
           {data.search.total_results &&
@@ -54,8 +54,8 @@ function Search() {
                   onClick={handlePrevPage}
                   className={`${
                     currentPageInt === 1
-                      ? "border-2 border-primary/40 font-medium text-zinc-400"
-                      : "border-2 border-primary font-medium text-zinc-800 hover:bg-primary hover:text-zinc-50"
+                      ? "border-2 border-primary/40 font-medium text-zinc-400 dark:text-zinc-600"
+                      : "border-2 border-primary font-medium text-zinc-800 hover:bg-primary hover:text-zinc-50 dark:text-zinc-300 dark:hover:text-zinc-200"
                   }  rounded-md py-1 w-28`}
                 >
                   Prev Page
@@ -64,8 +64,8 @@ function Search() {
                   onClick={handleNextPage}
                   className={`${
                     data.search.results.length < 20
-                      ? "border-2 border-primary/40 font-medium text-zinc-400"
-                      : "border-2 border-primary font-medium text-zinc-800 hover:bg-primary hover:text-zinc-50"
+                      ? "border-2 border-primary/40 font-medium text-zinc-400 dark:text-zinc-600"
+                      : "border-2 border-primary font-medium text-zinc-800 hover:bg-primary hover:text-zinc-50 dark:text-zinc-300 dark:hover:text-zinc-200"
                   }  rounded-md py-1 w-28`}
                 >
                   Next Page
@@ -73,7 +73,7 @@ function Search() {
               </div>
             </>
           ) : (
-            "Not found"
+            <p className="dark:text-zinc-300">Not found</p>
           )}
         </>
       ) : null}

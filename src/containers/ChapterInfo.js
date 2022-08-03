@@ -34,7 +34,7 @@ function ChapterInfo() {
   return (
     <div>
       {errorChapterDetail || errorChapterInfo ? (
-        <p className="text-center">There was an error</p>
+        <p className="text-center dark:text-zinc-300">There was an error</p>
       ) : isLoadingChapterDetail || isLoadingChapterInfo ? (
         <Loading />
       ) : dataChapterDetail || dataChapterInfo ? (
@@ -42,12 +42,12 @@ function ChapterInfo() {
           <div className="basis-1/4">
             <Link
               to={`/${chapter}/1`}
-              className="mb-4 flex items-center py-0.5 hover:bg-zinc-300 justify-center rounded-md"
+              className="mb-4 flex items-center py-0.5 hover:bg-zinc-300 justify-center rounded-md dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <img src="/ic_back.svg" alt="" />
+              <img src="/ic_back.svg" alt="back" className="dark:invert" />
               Read Surah
             </Link>
-            <div className="chapter-info w-full h-fit text-zinc-50 p-5 text-center rounded-md flex flex-col gap-2">
+            <div className="chapter-info w-full h-fit text-zinc-50 p-5 text-center rounded-md flex flex-col gap-2 dark:text-zinc-200">
               <p className="text-3xl font-bold">
                 {dataChapterDetail.chapter.name_arabic}
               </p>

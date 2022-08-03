@@ -13,7 +13,7 @@ function Footer() {
         href="https://github.com/arialghifari"
         target="_blank"
         rel="noreferrer"
-        className="underline underline-offset-2 hover:text-zinc-700"
+        className="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-400"
       >
         Ari Alghifari
       </a>

@@ -87,11 +87,11 @@ function AudioPlayer() {
   return (
     <div className="flex z-10 justify-center fixed bottom-3 left-0 right-0">
       {errorRecitation ? (
-        <p className="text-center">There was an error</p>
+        <p className="text-center dark:text-zinc-300">There was an error</p>
       ) : isLoadingRecitation || loading ? (
-        <p className="text-center">Loading...</p>
+        <p className="text-center dark:text-zinc-300">Loading...</p>
       ) : dataRecitation ? (
-        <div className="container w-fit py-3 px-6 relative bg-zinc-50 shadow-md border rounded-full">
+        <div className="container w-fit py-3 px-6 relative bg-zinc-50 shadow-md border rounded-full dark:bg-zinc-900 dark:border-zinc-500">
           <audio
             onEnded={handleOnEnded}
             autoPlay={isPlaying}

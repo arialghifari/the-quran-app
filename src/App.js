@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <div className="App container mx-auto px-3">
+    <div className="App container mx-auto px-3 bg-default dark:bg-zinc-900">
       <Header />
       <div className="mt-24" />
       <Routes>

@@ -14,7 +14,6 @@ import {
   removeBookmark,
 } from "../reducers/firebaseSlice";
 
-
 function Verse({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -89,42 +88,58 @@ function Verse({ item }) {
   return (
     <div
       className={`${
-        isActive ? "border-2 border-primary" : "border-2"
-      } flex flex-col gap-4 p-7 rounded-md bg-zinc-50`}
+        isActive ? "border-2 border-primary" : "border-2 dark:border-zinc-800"
+      } flex flex-col gap-4 p-7 rounded-md bg-zinc-50 dark:bg-zinc-800`}
       id={item.verse_key}
     >
       <p
-        className={`${getTextArabic()} text-right font-serif text-zinc-800 font-semibold leading-relaxed`}
+        className={`${getTextArabic()} text-right font-serif text-zinc-800 font-semibold leading-relaxed dark:text-zinc-300`}
       >
         {item.arabic}
       </p>
       {translation && (
-        <p className={`${getTextTranslation()} mt-2`}>
+        <p className={`${getTextTranslation()} mt-2 dark:text-zinc-300`}>
           {parse(item.translation)}
         </p>
       )}
-      <hr className="border" />
+      <hr className="border dark:border-zinc-900" />
       <div className="flex justify-between items-center">
         <p className="text-primary font-bold">{item.verse_key}</p>
 
         <div className="flex gap-3">
           {isPlaying && activeVerse === item.verse_key ? (
             <button onClick={togglePause}>
-              <img src="/ic_pause_small.svg" alt="pause" />
+              <img
+                src="/ic_pause_small.svg"
+                alt="pause"
+                className="dark:invert"
+              />
             </button>
           ) : (
             <button onClick={() => togglePlay(item.verse_key)}>
-              <img src="/ic_play_small.svg" alt="play" />
+              <img
+                src="/ic_play_small.svg"
+                alt="play"
+                className="dark:invert"
+              />
             </button>
           )}
 
           {isBookmarked ? (
             <button onClick={() => handleRemoveBookmark(item.verse_key)}>
-              <img src="/ic_bookmark_filled.svg" alt="bookmark" />
+              <img
+                src="/ic_bookmark_filled.svg"
+                alt="bookmark"
+                className="dark:invert"
+              />
             </button>
           ) : (
             <button onClick={() => handleAddBookmark(item.verse_key)}>
-              <img src="/ic_bookmark_outline.svg" alt="bookmark" />
+              <img
+                src="/ic_bookmark_outline.svg"
+                alt="bookmark"
+                className="dark:invert"
+              />
             </button>
           )}
         </div>

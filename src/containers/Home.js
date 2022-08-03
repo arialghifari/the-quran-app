@@ -7,7 +7,11 @@ import ChapterList from "../components/ChapterList";
 import Loading from "../components/Loading";
 import { auth, db } from "../config/firebase";
 import { pause } from "../reducers/audioSlice";
-import { initialize, selectBookmarks } from "../reducers/firebaseSlice";
+import {
+  initialize,
+  selectBookmarks,
+  selectDarkmode,
+} from "../reducers/firebaseSlice";
 
 import { useQuranQuery } from "../services/quranApi";
 
@@ -17,44 +21,56 @@ function Home() {
   const { data, error, isLoading } = useQuranQuery();
 
   const bookmarks = useSelector(selectBookmarks);
+  const darkmode = useSelector(selectDarkmode);
   const [user] = useAuthState(auth);
+
+  useEffect(() => {
+    darkmode
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark");
+  }, [darkmode]);
 
   useEffect(() => {
     dispatch(pause());
 
-    const getBookmarks = async () => {
-      if (user) {
+    if (user) {
+      const getBookmarks = async () => {
         await runTransaction(db, async (transaction) => {
           const userDocRef = doc(db, "users", user.uid);
           const dataSnap = await getDoc(userDocRef);
 
           dispatch(initialize(dataSnap.data()));
         });
-      }
-    };
+      };
 
-    getBookmarks();
+      getBookmarks();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
     <div className="container">
       {error ? (
-        <p className="text-center">There was an error</p>
+        <p className="text-center dark:text-zinc-300">There was an error</p>
       ) : isLoading ? (
         <Loading />
       ) : data ? (
         <>
-          <p className="text-lg font-medium text-zinc-800">📑 Bookmarks</p>
-          <hr className="mb-4 border-2 border-b-zinc-300" />
+          <p className="text-lg font-medium text-zinc-800 dark:text-zinc-300">
+            📑 Bookmarks
+          </p>
+          <hr className="mb-4 border border-zinc-300 dark:border-zinc-800" />
           {bookmarks.length ? (
             <BookmarkList item={bookmarks} />
           ) : (
-            <p>No bookmark</p>
+            <p className="dark:text-zinc-200">No bookmark</p>
           )}
 
-          <p className="text-lg font-medium text-zinc-800 mt-8">📖 Surah</p>
-          <hr className="mb-6 border-2 border-b-zinc-300" />
+          <p className="text-lg font-medium text-zinc-800 mt-8 dark:text-zinc-300">
+            📖 Surah
+          </p>
+          <hr className="mb-6 border border-zinc-300 dark:border-zinc-800" />
           <ChapterList item={data} />
         </>
       ) : null}

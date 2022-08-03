@@ -34,11 +34,11 @@
 
 @layer base {
   body {
-    @apply bg-default;
+    @apply bg-default dark:bg-zinc-900;
   }
 
   .format-text * {
-    @apply text-zinc-800;
+    @apply text-zinc-800 dark:text-zinc-400;
   }
 
   .format-text p {
@@ -63,7 +63,7 @@
   }
 
   .format-text strong {
-    @apply text-sm font-semibold text-zinc-700;
+    @apply text-sm font-semibold text-zinc-700 dark:text-zinc-400;
   }
 
   .search-card em {

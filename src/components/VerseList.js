@@ -5,13 +5,8 @@ import {
   useChapterVersesQuery,
 } from "../services/quranApi";
 import VerseCard from "./VerseCard";
-import {
-  selectBookmarks,
-  selectTextArabic,
-  selectTextTranslation,
-  selectTranslation,
-} from "../reducers/firebaseSlice";
-import { doc, setDoc } from "firebase/firestore";
+import { selectBookmarks } from "../reducers/firebaseSlice";
+import { doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useSelector } from "react-redux";
@@ -21,24 +16,18 @@ function VerseList() {
   const [chapterDetail, setChapterDetail] = useState([]);
 
   const [user] = useAuthState(auth);
-  const translation = useSelector(selectTranslation);
-  const textArabic = useSelector(selectTextArabic);
-  const textTranslation = useSelector(selectTextTranslation);
   const bookmarks = useSelector(selectBookmarks);
 
   useEffect(() => {
-    const updateFirebase = async () => {
-      if (user) {
-        await setDoc(doc(db, "users", user.uid), {
+    if (user) {
+      const updateBookmarks = async () => {
+        await updateDoc(doc(db, "users", user.uid), {
           bookmarks: bookmarks,
-          text_arabic: textArabic,
-          text_translation: textTranslation,
-          translation: translation,
         });
-      }
-    };
+      };
 
-    updateFirebase();
+      updateBookmarks();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookmarks]);
 
@@ -78,9 +67,9 @@ function VerseList() {
   return (
     <>
       {errorChapterVerses || errorTranslation ? (
-        <p className="text-center">There was an error</p>
+        <p className="text-center dark:text-zinc-300">There was an error</p>
       ) : isLoadingChapterVerses || isLoadingTranslation ? (
-        <p className="text-center">Loading...</p>
+        <p className="text-center dark:text-zinc-300">Loading...</p>
       ) : dataChapterVerses && dataTranslation ? (
         <div className="flex flex-col gap-4">
           {chapterDetail.map((item, index) => (

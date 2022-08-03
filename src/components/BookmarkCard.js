@@ -15,13 +15,13 @@ function BookmarkCard({ item }) {
   return (
     <>
       {errorChapterDetail ? (
-        <p className="text-center">There was an error</p>
+        <p className="text-center dark:text-zinc-300">There was an error</p>
       ) : isLoadingChapterDetail ? (
         <></>
       ) : dataChapterDetail ? (
         <div className="w-fit whitespace-nowrap">
           <Link to={`/${chapter}/${verse}`}>
-            <div className="logo w-fit text-zinc-50 py-1 px-4 rounded-md text-center">
+            <div className="logo w-fit text-zinc-50 py-1 px-4 rounded-md text-center dark:text-zinc-200">
               <p>{item}</p>
               <p>{dataChapterDetail.chapter.name_simple}</p>
             </div>

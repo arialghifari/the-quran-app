@@ -27,7 +27,7 @@ function ChapterDetail() {
   return (
     <div>
       {error || errorChapterDetail || errorChapterVerses ? (
-        <p className="text-center">There was an error</p>
+        <p className="text-center dark:text-zinc-300">There was an error</p>
       ) : isLoading || isLoadingChapterDetail || isLoadingChapterVerses ? (
         <Loading />
       ) : data && dataChapterDetail && dataChapterVerses ? (
