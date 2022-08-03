@@ -1,53 +1,31 @@
-import { doc, getDoc, runTransaction } from "firebase/firestore";
 import React, { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch, useSelector } from "react-redux";
 import BookmarkList from "../components/BookmarkList";
 import ChapterList from "../components/ChapterList";
 import Loading from "../components/Loading";
-import { auth, db } from "../config/firebase";
-import { pause } from "../reducers/audioSlice";
-import {
-  initialize,
-  selectBookmarks,
-  selectDarkmode,
-} from "../reducers/firebaseSlice";
+import { initialize, selectDarkmode } from "../reducers/firebaseSlice";
 
 import { useQuranQuery } from "../services/quranApi";
 
 function Home() {
   window.scrollTo(0, 0);
-  const dispatch = useDispatch();
   const { data, error, isLoading } = useQuranQuery();
+  const dispatch = useDispatch();
 
-  const bookmarks = useSelector(selectBookmarks);
   const darkmode = useSelector(selectDarkmode);
-  const [user] = useAuthState(auth);
+  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
   useEffect(() => {
-    darkmode
+    dispatch(initialize(localData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    localData?.darkmode
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
-  }, [darkmode]);
-
-  useEffect(() => {
-    dispatch(pause());
-
-    if (user) {
-      const getBookmarks = async () => {
-        await runTransaction(db, async (transaction) => {
-          const userDocRef = doc(db, "users", user.uid);
-          const dataSnap = await getDoc(userDocRef);
-
-          dispatch(initialize(dataSnap.data()));
-        });
-      };
-
-      getBookmarks();
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [darkmode]);
 
   return (
     <div className="container">
@@ -61,8 +39,8 @@ function Home() {
             📑 Bookmarks
           </p>
           <hr className="mb-4 border border-zinc-300 dark:border-zinc-800" />
-          {bookmarks.length ? (
-            <BookmarkList item={bookmarks} />
+          {localData?.bookmarks.length ? (
+            <BookmarkList item={localData?.bookmarks} />
           ) : (
             <p className="dark:text-zinc-200">No bookmark</p>
           )}

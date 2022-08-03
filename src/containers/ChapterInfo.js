@@ -5,28 +5,23 @@ import {
   useChapterInfoQuery,
 } from "../services/quranApi";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { pause } from "../reducers/audioSlice";
+import { useSelector } from "react-redux";
 import Loading from "../components/Loading";
 import { selectDarkmode } from "../reducers/firebaseSlice";
 
 function ChapterInfo() {
   window.scrollTo(0, 0);
 
-  const dispatch = useDispatch();
   const { chapter } = useParams();
   const darkmode = useSelector(selectDarkmode);
+  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
   useEffect(() => {
-    darkmode
+    localData?.darkmode
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
-  }, [darkmode]);
-
-  useEffect(() => {
-    dispatch(pause());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [darkmode]);
 
   const {
     data: dataChapterDetail,

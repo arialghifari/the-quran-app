@@ -18,14 +18,7 @@ function App() {
       <div className="mt-24" />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/:chapter/info"
-          element={
-            <ProtectedRoute>
-              <ChapterInfo />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/:chapter/info" element={<ChapterInfo />} />
         <Route path="/:chapter/:verse" element={<ChapterDetail />} />
         <Route path="/search/:query/:page" element={<Search />} />
         <Route

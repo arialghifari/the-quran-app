@@ -32,9 +32,21 @@ function Register() {
             translation: true,
             darkmode: false,
           });
+
+          window.localStorage.setItem("the_quran_app", {
+            bookmarks: [],
+            text_arabic: "Regular",
+            text_translation: "Regular",
+            translation: true,
+            darkmode: false,
+          });
         } else {
           const dataSnap = await getDoc(userDocRef);
 
+          window.localStorage.setItem(
+            "the_quran_app",
+            JSON.stringify(dataSnap.data())
+          );
           dispatch(initialize(dataSnap.data()));
         }
       });
@@ -65,9 +77,21 @@ function Register() {
               translation: true,
               darkmode: false,
             });
+
+            window.localStorage.setItem("the_quran_app", {
+              bookmarks: [],
+              text_arabic: "Regular",
+              text_translation: "Regular",
+              translation: true,
+              darkmode: false,
+            });
           } else {
             const dataSnap = await getDoc(userDocRef);
 
+            window.localStorage.setItem(
+              "the_quran_app",
+              JSON.stringify(dataSnap.data())
+            );
             dispatch(initialize(dataSnap.data()));
           }
         });

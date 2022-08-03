@@ -2,12 +2,8 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { auth, db } from "../config/firebase";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  selectTextArabic,
-  selectTextTranslation,
-  selectTranslation,
-  selectDarkmode,
   updateTextArabic,
   updateTextTranslation,
   toggleDarkmode,
@@ -19,10 +15,7 @@ function Setting() {
   const [user] = useAuthState(auth);
   const dispatch = useDispatch();
 
-  const darkmode = useSelector(selectDarkmode);
-  const translation = useSelector(selectTranslation);
-  const textArabic = useSelector(selectTextArabic);
-  const textTranslation = useSelector(selectTextTranslation);
+  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
   const handleTextArabic = async (value) => {
     await updateDoc(doc(db, "users", user.uid), {
@@ -70,7 +63,7 @@ function Setting() {
               name="text_arabic"
               id="text-arabic"
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm dark:bg-zinc-700"
-              defaultValue={textArabic}
+              defaultValue={localData?.text_arabic}
             >
               <option value="Extra Small">Extra Small</option>
               <option value="Small">Small</option>
@@ -87,7 +80,7 @@ function Setting() {
               name="text_translation"
               id="text-translation"
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm dark:bg-zinc-700"
-              defaultValue={textTranslation}
+              defaultValue={localData?.text_translation}
             >
               <option value="Extra Small">Extra Small</option>
               <option value="Small">Small</option>
@@ -102,8 +95,8 @@ function Setting() {
               type="checkbox"
               id="translation"
               name="translation"
-              defaultChecked={translation}
-              onClick={() => handleTranslation(translation)}
+              defaultChecked={localData?.translation}
+              onClick={() => handleTranslation(localData?.translation)}
             />
             <label htmlFor="translation" className="cursor-pointer">
               Show Translation
@@ -115,8 +108,8 @@ function Setting() {
               type="checkbox"
               id="darkmode"
               name="darkmode"
-              defaultChecked={darkmode}
-              onClick={() => handleDarkmode(darkmode)}
+              defaultChecked={localData?.darkmode}
+              onClick={() => handleDarkmode(localData?.darkmode)}
             />
             <label htmlFor="darkmode" className="cursor-pointer">
               Dark Mode

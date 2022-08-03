@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import SearchList from "../components/SearchList";
-import { selectDarkmode } from "../reducers/firebaseSlice";
+import { initialize, selectDarkmode } from "../reducers/firebaseSlice";
 import { useSearchQuery } from "../services/quranApi";
 
 function Search() {
@@ -13,6 +13,8 @@ function Search() {
   const [currentPage, setCurrentPage] = useState(page);
   const currentPageInt = parseInt(currentPage);
   const darkmode = useSelector(selectDarkmode);
+  const dispatch = useDispatch();
+  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
   const { data, error, isLoading } = useSearchQuery({
     query: query,
@@ -20,9 +22,15 @@ function Search() {
   });
 
   useEffect(() => {
-    darkmode
+    dispatch(initialize(localData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    localData?.darkmode
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [darkmode]);
 
   useEffect(() => {

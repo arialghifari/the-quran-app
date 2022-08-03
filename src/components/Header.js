@@ -35,6 +35,17 @@ function Header() {
     try {
       await signOut(auth);
       setToggleLogout(false);
+
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({
+          bookmarks: [],
+          darkmode: false,
+          translation: true,
+          text_arabic: "Regular",
+          text_translation: "Regular",
+        })
+      );
       dispatch(
         initialize({
           bookmarks: [],

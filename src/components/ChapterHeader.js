@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { pause, play, selectIsPlaying } from "../reducers/audioSlice";
 
@@ -20,6 +20,11 @@ function ChapterHeader({ item, verseLength }) {
   const togglePause = () => {
     if (!user) return navigate("/login");
     dispatch(pause());
+  };
+
+  const handleChapterInfo = () => {
+    if (!user) return navigate("/login");
+    navigate(`/${chapter}/info`);
   };
 
   return (
@@ -48,13 +53,13 @@ function ChapterHeader({ item, verseLength }) {
             />
             {isPlaying ? "Pause" : "Play"} Audio
           </button>
-          <Link
-            to={`/${chapter}/info`}
+          <button
+            onClick={() => handleChapterInfo(`/info/${chapter}`)}
             className="w-fit text-zinc-800 hover:bg-zinc-300 py-1 px-2 rounded-md flex justify-center items-center gap-1 dark:text-zinc-300 dark:hover:bg-zinc-800"
           >
             <img src="/ic_info.svg" alt="info" className="dark:invert" />
             Surah Info
-          </Link>
+          </button>
         </div>
       </div>
 

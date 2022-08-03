@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const localData = JSON.parse(localStorage.getItem("the_quran_app"));
+
 const firebaseSlice = createSlice({
   name: "firebase",
   initialState: {
@@ -20,13 +22,28 @@ const firebaseSlice = createSlice({
       };
     },
     updateTextArabic: (state, action) => {
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({ ...localData, text_arabic: action.payload })
+      );
+
       return { ...state, text_arabic: action.payload };
     },
     updateTextTranslation: (state, action) => {
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({ ...localData, text_translation: action.payload })
+      );
+
       return { ...state, text_translation: action.payload };
     },
     addBookmark: (state, action) => {
       const addBookmark = [...state.bookmarks, action.payload];
+
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({ ...localData, bookmarks: addBookmark })
+      );
 
       return { ...state, bookmarks: addBookmark };
     },
@@ -35,12 +52,27 @@ const firebaseSlice = createSlice({
         (item) => item !== action.payload
       );
 
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({ ...localData, bookmarks: removeBookmark })
+      );
+
       return { ...state, bookmarks: removeBookmark };
     },
     toggleTranslation: (state, action) => {
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({ ...localData, translation: action.payload })
+      );
+
       return { ...state, translation: action.payload };
     },
     toggleDarkmode: (state, action) => {
+      localStorage.setItem(
+        "the_quran_app",
+        JSON.stringify({ ...localData, darkmode: action.payload })
+      );
+
       return { ...state, darkmode: action.payload };
     },
   },
