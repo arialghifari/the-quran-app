@@ -1,11 +1,31 @@
+import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectDarkmode } from "../reducers/firebaseSlice";
+import { auth, db } from "../config/firebase";
+import { initialize, selectDarkmode } from "../reducers/firebaseSlice";
 
 function Page404() {
   window.scrollTo(0, 0);
   const darkmode = useSelector(selectDarkmode);
+
+  const [user] = useAuthState(auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      const getData = async () => {
+        const userDocRef = doc(db, "users", user.uid);
+        const dataSnap = await getDoc(userDocRef);
+
+        dispatch(initialize(dataSnap.data()));
+      };
+
+      getData();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   useEffect(() => {
     darkmode

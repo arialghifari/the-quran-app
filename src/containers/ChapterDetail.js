@@ -9,29 +9,18 @@ import VerseList from "../components/VerseList";
 import AudioPlayer from "../components/AudioPlayer";
 import ChapterHeader from "../components/ChapterHeader";
 import Loading from "../components/Loading";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  initialize,
-  selectDarkmode,
-} from "../reducers/firebaseSlice";
+import { useSelector } from "react-redux";
+import { selectDarkmode } from "../reducers/firebaseSlice";
 
 function ChapterDetail() {
   const { chapter } = useParams();
   const { data, error, isLoading } = useQuranQuery();
   const darkmode = useSelector(selectDarkmode);
-  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(initialize(localData));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    localData?.darkmode
+    darkmode
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [darkmode]);
 
   const {

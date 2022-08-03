@@ -1,78 +1,42 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
-import { auth, db } from "../config/firebase";
-import { useDispatch } from "react-redux";
+import { auth } from "../config/firebase";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateTextArabic,
   updateTextTranslation,
   toggleDarkmode,
   toggleTranslation,
-  initialize,
+  selectDarkmode,
+  selectTextArabic,
+  selectTextTranslation,
+  selectTranslation,
 } from "../reducers/firebaseSlice";
-import { doc, updateDoc } from "firebase/firestore";
 
 function Setting() {
   const [user] = useAuthState(auth);
   const dispatch = useDispatch();
 
-  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
+  const darkmode = useSelector(selectDarkmode);
+  const textArabic = useSelector(selectTextArabic);
+  const textTranslation = useSelector(selectTextTranslation);
+  const translation = useSelector(selectTranslation);
 
-  useEffect(() => {
-    dispatch(initialize(localData));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleTextArabic = async (value) => {
-    await updateDoc(doc(db, "users", user.uid), {
-      text_arabic: value,
-    });
-
-    localStorage.setItem(
-      "the_quran_app",
-      JSON.stringify({ ...localData, text_arabic: value })
-    );
-
-    dispatch(updateTextArabic(value));
+  const handleTextArabic = (value) => {
+    dispatch(updateTextArabic({ value: value, uid: user.uid }));
   };
 
-  const handleTextTranslation = async (value) => {
-    await updateDoc(doc(db, "users", user.uid), {
-      text_translation: value,
-    });
-
-    localStorage.setItem(
-      "the_quran_app",
-      JSON.stringify({ ...localData, text_translation: value })
-    );
-
-    dispatch(updateTextTranslation(value));
+  const handleTextTranslation = (value) => {
+    dispatch(updateTextTranslation({ value: value, uid: user.uid }));
   };
 
-  const handleTranslation = async (value) => {
-    await updateDoc(doc(db, "users", user.uid), {
-      translation: !value,
-    });
-
-    localStorage.setItem(
-      "the_quran_app",
-      JSON.stringify({ ...localData, translation: !value })
-    );
-
-    dispatch(toggleTranslation(!value));
+  const handleTranslation = (value) => {
+    dispatch(toggleTranslation({ value: !value, uid: user.uid }));
   };
 
-  const handleDarkmode = async (value) => {
-    await updateDoc(doc(db, "users", user.uid), {
-      darkmode: !value,
-    });
-
-    localStorage.setItem(
-      "the_quran_app",
-      JSON.stringify({ ...localData, darkmode: !value })
-    );
-
-    dispatch(toggleDarkmode(!value));
+  const handleDarkmode = (value) => {
+    dispatch(toggleDarkmode({ value: !value, uid: user.uid }));
   };
 
   return (
@@ -89,7 +53,7 @@ function Setting() {
               name="text_arabic"
               id="text-arabic"
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm dark:bg-zinc-700"
-              defaultValue={localData?.text_arabic}
+              defaultValue={textArabic}
             >
               <option value="Extra Small">Extra Small</option>
               <option value="Small">Small</option>
@@ -106,7 +70,7 @@ function Setting() {
               name="text_translation"
               id="text-translation"
               className="cursor-pointer w-full bg-zinc-200 p-1 rounded-sm dark:bg-zinc-700"
-              defaultValue={localData?.text_translation}
+              defaultValue={textTranslation}
             >
               <option value="Extra Small">Extra Small</option>
               <option value="Small">Small</option>
@@ -121,8 +85,8 @@ function Setting() {
               type="checkbox"
               id="translation"
               name="translation"
-              defaultChecked={localData?.translation}
-              onClick={() => handleTranslation(localData?.translation)}
+              defaultChecked={translation}
+              onClick={() => handleTranslation(translation)}
             />
             <label htmlFor="translation" className="cursor-pointer">
               Show Translation
@@ -134,8 +98,8 @@ function Setting() {
               type="checkbox"
               id="darkmode"
               name="darkmode"
-              defaultChecked={localData?.darkmode}
-              onClick={() => handleDarkmode(localData?.darkmode)}
+              defaultChecked={darkmode}
+              onClick={() => handleDarkmode(darkmode)}
             />
             <label htmlFor="darkmode" className="cursor-pointer">
               Dark Mode

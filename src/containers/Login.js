@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -7,8 +7,8 @@ import {
 import { Link } from "react-router-dom";
 import { auth, db } from "../config/firebase";
 import { doc, getDoc, runTransaction, setDoc } from "firebase/firestore";
-import { useDispatch, useSelector } from "react-redux";
-import { initialize, selectDarkmode } from "../reducers/firebaseSlice";
+import { useDispatch } from "react-redux";
+import { initialize } from "../reducers/firebaseSlice";
 
 function Login() {
   window.scrollTo(0, 0);
@@ -16,13 +16,6 @@ function Login() {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const darkmode = useSelector(selectDarkmode);
-
-  useEffect(() => {
-    darkmode
-      ? document.documentElement.classList.add("dark")
-      : document.documentElement.classList.remove("dark");
-  }, [darkmode]);
 
   const provider = new GoogleAuthProvider();
   const signInWithGoogle = async () => {
@@ -39,21 +32,9 @@ function Login() {
             translation: true,
             darkmode: false,
           });
-
-          window.localStorage.setItem("the_quran_app", {
-            bookmarks: [],
-            text_arabic: "Regular",
-            text_translation: "Regular",
-            translation: true,
-            darkmode: false,
-          });
         } else {
           const dataSnap = await getDoc(userDocRef);
 
-          window.localStorage.setItem(
-            "the_quran_app",
-            JSON.stringify(dataSnap.data())
-          );
           dispatch(initialize(dataSnap.data()));
         }
       });
@@ -84,21 +65,9 @@ function Login() {
               translation: true,
               darkmode: false,
             });
-
-            window.localStorage.setItem("the_quran_app", {
-              bookmarks: [],
-              text_arabic: "Regular",
-              text_translation: "Regular",
-              translation: true,
-              darkmode: false,
-            });
           } else {
             const dataSnap = await getDoc(userDocRef);
 
-            window.localStorage.setItem(
-              "the_quran_app",
-              JSON.stringify(dataSnap.data())
-            );
             dispatch(initialize(dataSnap.data()));
           }
         });

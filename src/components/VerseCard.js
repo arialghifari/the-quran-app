@@ -21,6 +21,7 @@ function Verse({ item }) {
   const isActive = item.id === parseInt(verse);
   const activeVerse = `${chapter}:${verse}`;
   const [user] = useAuthState(auth);
+
   const isPlaying = useSelector(selectIsPlaying);
   const textArabic = useSelector(selectTextArabic);
   const textTranslation = useSelector(selectTextTranslation);
@@ -64,6 +65,7 @@ function Verse({ item }) {
 
   const handleAddBookmark = () => {
     if (!user) return navigate("/login");
+
     dispatch(addBookmark({ verse_key: item.verse_key, uid: user.uid }));
   };
 

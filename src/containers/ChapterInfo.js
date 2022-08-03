@@ -14,10 +14,9 @@ function ChapterInfo() {
 
   const { chapter } = useParams();
   const darkmode = useSelector(selectDarkmode);
-  const localData = JSON.parse(localStorage.getItem("the_quran_app"));
 
   useEffect(() => {
-    localData?.darkmode
+    darkmode
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
     // eslint-disable-next-line react-hooks/exhaustive-deps

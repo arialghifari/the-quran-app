@@ -2,8 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
-const localData = JSON.parse(localStorage.getItem("the_quran_app"));
-
 const firebaseSlice = createSlice({
   name: "firebase",
   initialState: {
@@ -24,10 +22,18 @@ const firebaseSlice = createSlice({
       };
     },
     updateTextArabic: (state, action) => {
-      return { ...state, text_arabic: action.payload };
+      updateDoc(doc(db, "users", action.payload.uid), {
+        text_arabic: action.payload.value,
+      });
+
+      return { ...state, text_arabic: action.payload.value };
     },
     updateTextTranslation: (state, action) => {
-      return { ...state, text_translation: action.payload };
+      updateDoc(doc(db, "users", action.payload.uid), {
+        text_translation: action.payload.value,
+      });
+
+      return { ...state, text_translation: action.payload.value };
     },
     addBookmark: (state, action) => {
       const addBookmark = [...state.bookmarks, action.payload.verse_key];
@@ -35,11 +41,6 @@ const firebaseSlice = createSlice({
       updateDoc(doc(db, "users", action.payload.uid), {
         bookmarks: addBookmark,
       });
-
-      localStorage.setItem(
-        "the_quran_app",
-        JSON.stringify({ ...localData, bookmarks: [...addBookmark] })
-      );
 
       return { ...state, bookmarks: [...addBookmark] };
     },
@@ -52,18 +53,21 @@ const firebaseSlice = createSlice({
         bookmarks: removeBookmark,
       });
 
-      localStorage.setItem(
-        "the_quran_app",
-        JSON.stringify({ ...localData, bookmarks: [...removeBookmark] })
-      );
-
       return { ...state, bookmarks: removeBookmark };
     },
     toggleTranslation: (state, action) => {
-      return { ...state, translation: action.payload };
+      updateDoc(doc(db, "users", action.payload.uid), {
+        translation: action.payload.value,
+      });
+
+      return { ...state, translation: action.payload.value };
     },
     toggleDarkmode: (state, action) => {
-      return { ...state, darkmode: action.payload };
+      updateDoc(doc(db, "users", action.payload.uid), {
+        darkmode: action.payload.value,
+      });
+
+      return { ...state, darkmode: action.payload.value };
     },
   },
 });
